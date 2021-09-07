@@ -6,6 +6,7 @@ import me.stroyer.eventsplus.Arena.CreateArena.CreateArena;
 import me.stroyer.eventsplus.Main;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -61,6 +62,19 @@ public class EventsPlus implements CommandExecutor {
                     }
                 }else{
                     Send.player(p, "Incorrect syntax. Use /cn arena <Create|Edit>");
+                }
+            }
+            if(args[0].equalsIgnoreCase("listarenas")){
+                List<String> arenasString = new ArrayList<String>();
+                for(int i = 0; i < Arenas.arenas.size(); i ++){
+                    arenasString.add("Name: " + ChatColor.GREEN + Arenas.arenas.get(i).name);
+                    arenasString.add("Active: " + ChatColor.GREEN + Arenas.arenas.get(i).active);
+                    arenasString.add("Blocks in arena: " + ChatColor.GREEN + Arenas.arenas.get(i).locations.size());
+                    arenasString.add("World: " + ChatColor.GREEN + Arenas.arenas.get(i).locations.get(0).location.getWorld().toString());
+                    Location loc = Arenas.arenas.get(i).locations.get(0).location;
+                    arenasString.add("Location: " + ChatColor.GREEN + Math.round(loc.getX()) + ", " + Math.round(loc.getY()) + ", " + Math.round(loc.getZ()));
+                    Send.playerMultipleLines(p, arenasString, "Arena ID: " + i);
+                    arenasString.clear();
                 }
             }
         }
