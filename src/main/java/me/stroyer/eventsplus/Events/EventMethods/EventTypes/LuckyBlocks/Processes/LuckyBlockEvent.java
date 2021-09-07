@@ -46,6 +46,7 @@ public class LuckyBlockEvent {
                 Send.allPlayer(ep.player.getName() + " has readied up. Waiting for " + remaining() + " more players to ready up.");
             }
         }else{
+            Send.player(ep.player, "You have already readied up!");
             ep.isReady = true;
         }
 

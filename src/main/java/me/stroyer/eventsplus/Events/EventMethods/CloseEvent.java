@@ -3,6 +3,8 @@ package me.stroyer.eventsplus.Events.EventMethods;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.PlayerEventPreLocation;
+import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
+import me.stroyer.eventsplus.Methods.StaffOnline;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -26,6 +28,10 @@ public class CloseEvent {
                     Send.player(members.get(i), ChatColor.GREEN + "You were succesfuly returned from the event. Thanks for playing!");
                 }
             }
+        }
+
+        for(int i = 0; i < event.staff.size(); i++){
+            event.staff.get(i).getInventory().removeItem(StaffController.getStaffItem());
         }
     }
 }

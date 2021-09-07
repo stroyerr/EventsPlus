@@ -23,6 +23,7 @@ public class StartGUI {
     public static ItemStack close = NewItem.createGuiItem(Material.BARRIER, ChatColor.RED + "Close");
 
     public static void open(Player p){
+        arenaItems = new ArrayList<ArenaSelectionItem>();
         inv = Bukkit.createInventory(null, 36, ChatColor.DARK_RED + "Start an Event!");
         for(int i = 0; i < Arenas.arenas.size(); i ++){
             arenaItems.add(new ArenaSelectionItem(Arenas.arenas.get(i)));
