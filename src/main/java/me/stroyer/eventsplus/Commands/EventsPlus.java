@@ -3,6 +3,8 @@ package me.stroyer.eventsplus.Commands;
 import jdk.jfr.Event;
 import me.stroyer.eventsplus.Arena.Arenas;
 import me.stroyer.eventsplus.Arena.CreateArena.CreateArena;
+import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
+import me.stroyer.eventsplus.Events.GUIs.StartGUI;
 import me.stroyer.eventsplus.Main;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
@@ -28,7 +30,7 @@ public class EventsPlus implements CommandExecutor {
         Player p = (Player) sender;
 
         if(args.length == 0){
-            Send.player(p, "EventsPlus by Stroyer_ - Use /ep help for commands.");
+            Send.player(p, "EventsPlus by Stroyer_ - Use /ep help for admin commands.");
             return true;
         }else {
 
@@ -51,17 +53,25 @@ public class EventsPlus implements CommandExecutor {
                                     return true;
                                 }
                             }
+                            if(Arenas.arenas.size() == 34){
+                                Send.player(p, ChatColor.RED + "Failed to created arena - the maxmimum number of arenas (34) has been reached. Delete another arena then try again.");
+                                return true;
+                            }
                             CreateArena.attemptCreate(p, args[2]);
+                            return true;
                         }else{
                             Send.player(p, "Incorrect syntax. Use /ep arena save <Arena Name>");
+                            return true;
                         }
                     }
 
                     else{
                         Send.player(p, "Incorrect syntax. Use /cn arena <Create|Edit>");
+                        return true;
                     }
                 }else{
-                    Send.player(p, "Incorrect syntax. Use /cn arena <Create|Edit>");
+                    Send.player(p, "Incorrect syntax. Use /ep arena <Create|Edit>");
+                    return true;
                 }
             }
             if(args[0].equalsIgnoreCase("listarenas")){
@@ -76,8 +86,32 @@ public class EventsPlus implements CommandExecutor {
                     Send.playerMultipleLines(p, arenasString, "Arena ID: " + i);
                     arenasString.clear();
                 }
+                return true;
+            }
+
+            if(args[0].equalsIgnoreCase("help")){
+                List<String> msg = new ArrayList<String>();
+                msg.add("/ep arena create" + ChatColor.GREEN + " Gives the arena creation selection tool");
+                msg.add("/ep arena save <arena name>" + ChatColor.GREEN + " Creates an arena from your selection and names the arena <arena name>");
+                msg.add("/ep listarenas" + ChatColor.GREEN + " Lists all currently saved arenas.");
+                Send.playerMultipleLines(p, msg, "Admin Commands");
+                return true;
+            }
+
+            if(args[0].equalsIgnoreCase("start")){
+                StartGUI.open(p);
+                return true;
+            }
+
+            if(args[0].equalsIgnoreCase("delete")){
+                DeleteUI.open(p);
+                return true;
             }
         }
+
+
+
+        Send.player(p, ChatColor.RED +"Unkown command. Use /ep help for admin commands.");
 
         return true;
     }

@@ -51,9 +51,6 @@ public class CreateArena {
             if(locations != null){
                 Arenas.arenas.add(new Arena(name, locations));
                 Send.player(p, ChatColor.GREEN + "Successfully created arena " + name);
-                Bukkit.getLogger().info("break 1");
-                Bukkit.getLogger().info("size " + locations.size());
-                Bukkit.getLogger().info("finished");
             }else{
                 Send.player(p, ChatColor.RED + "Internal error when creating arena (block locations returned null). If you are sure you followed the instructions, contact Stroyer_");
             }
