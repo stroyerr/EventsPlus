@@ -4,6 +4,7 @@ import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -32,6 +33,7 @@ public class InitialiseEvent {
             Send.allMultipleLines(notification, ChatColor.BOLD + "LuckyBlocks" + ChatColor.WHITE + "    Participants: " + event.members.size());
 
             StaffController.giveStaff();
+            LuckyBlockEvent.initialise(event);
 
         }
     }

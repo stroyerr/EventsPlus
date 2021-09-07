@@ -44,6 +44,7 @@ public class InventoryInteract implements Listener {
     @EventHandler
     public static void onUseItem(PlayerInteractEvent e){
         if(e.getItem().equals(StaffController.getStaffItem())){
+            e.setCancelled(true);
             Player p = e.getPlayer();
             StaffController.open(p);
         }

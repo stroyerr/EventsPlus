@@ -94,11 +94,14 @@ public class EventsPlus implements CommandExecutor {
                 msg.add("/ep arena create" + ChatColor.GREEN + " Gives the arena creation selection tool");
                 msg.add("/ep arena save <arena name>" + ChatColor.GREEN + " Creates an arena from your selection and names the arena <arena name>");
                 msg.add("/ep listarenas" + ChatColor.GREEN + " Lists all currently saved arenas.");
+                msg.add("/ep start" + ChatColor.GREEN + " Start an event as host. Must have eventsplus.host permission node to host an event.");
+                msg.add("/ep delete" + ChatColor.GREEN + " Delete an event.");
                 Send.playerMultipleLines(p, msg, "Admin Commands");
                 return true;
             }
 
             if(args[0].equalsIgnoreCase("start")){
+                if(!sender.hasPermission("eventsplus.host")){Send.player((Player) sender, ChatColor.RED + "Insufficient permissions.");return true;}
                 StartGUI.open(p);
                 return true;
             }

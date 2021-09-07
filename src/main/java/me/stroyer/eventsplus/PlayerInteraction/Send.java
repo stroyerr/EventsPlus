@@ -16,7 +16,10 @@ public class Send {
     }
 
     public static void playerMultipleLines(Player player, List<String> message, String firstLine){
+        player.sendMessage(ChatColor.GRAY + "----------------------------------------");
         player(player, ChatColor.YELLOW + firstLine);
+        player.sendMessage("");
+        message.add(ChatColor.GRAY + "----------------------------------------");
         for(int i = 0; i < message.size(); i ++){
             player.sendMessage(ChatColor.GOLD + message.get(i));
         }
@@ -30,6 +33,12 @@ public class Send {
                 online.get(j).sendMessage(ChatColor.GOLD + message.get(i));
             }
         }
+    }
 
+    public static void allPlayer(String message){
+        List<Player> players = new ArrayList<Player>(Bukkit.getOnlinePlayers());
+        for(int i = 0; i < players.size(); i++){
+            player(players.get(i), message);
+        }
     }
 }

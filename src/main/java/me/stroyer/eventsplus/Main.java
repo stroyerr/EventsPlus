@@ -3,6 +3,7 @@ package me.stroyer.eventsplus;
 import me.stroyer.eventsplus.Arena.ArenaStorage.StorageManager;
 import me.stroyer.eventsplus.Commands.EventsPlus;
 import me.stroyer.eventsplus.Listeners.BlockActionInArena;
+import me.stroyer.eventsplus.Listeners.ChatListener;
 import me.stroyer.eventsplus.Listeners.InventoryInteract;
 import me.stroyer.eventsplus.Listeners.SelectionWand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +24,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SelectionWand(), this);
         getServer().getPluginManager().registerEvents(new BlockActionInArena(), this);
         getServer().getPluginManager().registerEvents(new InventoryInteract(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
 
         File f = new File("./plugins/EventsPlus/arenas.eventsplus");
         try{
