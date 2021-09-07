@@ -1,0 +1,11 @@
+name: EventsPlus
+version: ${project.version}
+main: me.stroyer.eventsplus.Main
+api-version: 1.17
+authors: [ Stroyer_ ]
+description: Custom Events Plugin
+commands:
+  EventsPlus:
+    aliases: [ep, eps, events, event, eplus, eventp]
+    usage: /<command>
+    description: General command for EventsPlus
