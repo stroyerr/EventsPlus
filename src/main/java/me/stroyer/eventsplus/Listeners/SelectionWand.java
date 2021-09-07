@@ -23,11 +23,13 @@ public class SelectionWand implements Listener {
         if(e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
             e.setCancelled(true);
             CreateArena.setPos1(p, e.getClickedBlock());
+            return;
         }
 
         if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
             e.setCancelled(true);
             CreateArena.setPos2(p, e.getClickedBlock());
+            return;
         }
     }
 

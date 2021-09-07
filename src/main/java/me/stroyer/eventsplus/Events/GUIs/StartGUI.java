@@ -1,6 +1,8 @@
 package me.stroyer.eventsplus.Events.GUIs;
 
+import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Arena.Arenas;
+import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.UI.ArenaSelectionItem;
 import me.stroyer.eventsplus.UI.Methods.FillBlank;
 import me.stroyer.eventsplus.UI.Methods.NewItem;
@@ -35,6 +37,19 @@ public class StartGUI {
     }
 
     public static void InventoryEvent(InventoryClickEvent e){
-
+        for(int i = 0; i < arenaItems.size(); i ++){
+            Bukkit.getLogger().info("1");
+            if(e.getCurrentItem().equals(arenaItems.get(i).guiItem)){
+                Bukkit.getLogger().info("2");
+                Arena arena = arenaItems.get(i).arena;
+                Player p = (Player) e.getWhoClicked();
+                if(Event.activeEvent != null){
+                    p.sendMessage(ChatColor.RED + "An event is already active.");
+                    return;
+                }
+                SelectEventType.open(arena, p);
+                break;
+            }
+        }
     }
 }
