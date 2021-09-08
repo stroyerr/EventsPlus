@@ -4,6 +4,7 @@ import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.PlayerEventPreLocation;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.Methods.StaffOnline;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
@@ -14,6 +15,13 @@ import java.util.List;
 
 public class CloseEvent {
     public static void close(Event event){
+        if(event.type.equalsIgnoreCase("lucky_blocks")){
+            LuckyBlockEvent.endRound();
+        }
+
+        for(int i = 0; i < event.staff.size(); i++){
+            event.staff.get(i).getInventory().removeItem(StaffController.getStaffItem());
+        }
         Event.activeEvent = null;
         event.arena.active = false;
         List<Player> members = event.members;
@@ -30,8 +38,6 @@ public class CloseEvent {
             }
         }
 
-        for(int i = 0; i < event.staff.size(); i++){
-            event.staff.get(i).getInventory().removeItem(StaffController.getStaffItem());
-        }
+
     }
 }

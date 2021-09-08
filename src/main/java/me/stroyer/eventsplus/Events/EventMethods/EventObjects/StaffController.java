@@ -33,7 +33,7 @@ public class StaffController {
         close = NewItem.createGuiItem(Material.BARRIER, ChatColor.RED + "Close");
         end = NewItem.createGuiItem(Material.REDSTONE_BLOCK, ChatColor.DARK_RED + "End event");
         removeMember = NewItem.createGuiItem(Material.RED_STAINED_GLASS_PANE, ChatColor.GOLD + "Remove player");
-        ItemStack eventDetails = NewItem.createGuiItem(Material.PAPER, ChatColor.WHITE + "Event details", "");
+        ItemStack eventDetails = NewItem.createGuiItem(Material.PAPER, ChatColor.WHITE + "" + ChatColor.BOLD, "Event details", "");
 
 
         ItemMeta im = eventDetails.getItemMeta();

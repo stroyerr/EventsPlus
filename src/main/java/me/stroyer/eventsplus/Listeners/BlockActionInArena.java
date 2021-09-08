@@ -2,8 +2,10 @@ package me.stroyer.eventsplus.Listeners;
 
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Arena.Arenas;
+import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -22,6 +24,10 @@ public class BlockActionInArena implements Listener {
                         return;
                     }else{
                         if(e.getPlayer().hasPermission("eventsplus.bypass")){
+                            if(Event.activeEvent != null){
+                                e.setCancelled(true);
+                                Send.player(e.getPlayer(), ChatColor.RED + "You cannot mofidy an arena during an event, even though you are staff.");
+                            }
                             return;
                         }else{
                             e.setCancelled(true);
@@ -43,7 +49,10 @@ public class BlockActionInArena implements Listener {
                         return;
                     }else{
                         if(e.getPlayer().hasPermission("eventsplus.bypass")){
-                            return;
+                            if(Event.activeEvent != null){
+                                e.setCancelled(true);
+                                Send.player(e.getPlayer(), ChatColor.RED + "You cannot mofidy an arena during an event, even though you are staff.");
+                            }
                         }else{
                             e.setCancelled(true);
                             Send.player(e.getPlayer(), "You do not have sufficient permissions to build blocks in event arenas!");
