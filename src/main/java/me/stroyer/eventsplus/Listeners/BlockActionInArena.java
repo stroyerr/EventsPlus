@@ -16,6 +16,7 @@ import java.util.List;
 public class BlockActionInArena implements Listener {
     @EventHandler
     public static void blockBreakEvent(BlockBreakEvent e){
+
         List<Arena> arenas = Arenas.arenas;
         for(int i = 0; i < arenas.size(); i ++){
             for(int m = 0; m < arenas.get(i).locations.size(); m ++){
@@ -41,6 +42,13 @@ public class BlockActionInArena implements Listener {
 
     @EventHandler
     public static void blockPlaceEvent(BlockPlaceEvent e){
+        if(Event.activeEvent.activeEventBlocks != null){
+            Bukkit.getLogger().info("1");
+            if(Event.activeEvent.activeEventBlocks.contains(e.getBlock())){
+                Bukkit.getLogger().info("2");
+                return;
+            }
+        }
         List<Arena> arenas = Arenas.arenas;
         for(int i = 0; i < arenas.size(); i ++){
             for(int m = 0; m < arenas.get(i).locations.size(); m ++){

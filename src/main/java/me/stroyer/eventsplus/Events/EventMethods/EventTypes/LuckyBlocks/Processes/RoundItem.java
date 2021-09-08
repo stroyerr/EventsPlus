@@ -30,7 +30,7 @@ public class RoundItem {
         inv = Bukkit.createInventory(null, 9, ChatColor.GOLD + "" + ChatColor.GOLD + "Round " + round + " block");
         ItemStack currentItem;
         e = event;
-        final int[] timeRemaining = {80};
+        final int[] timeRemaining = {40};
 
 
         br = new BukkitRunnable() {
@@ -39,7 +39,7 @@ public class RoundItem {
                 if(timeRemaining[0] >=0){
                     timeRemaining[0] --;
                     updateInventory();
-                }else if(timeRemaining[0] >= -40 && timeRemaining[0] < 0){
+                }else if(timeRemaining[0] >= -20 && timeRemaining[0] < 0){
                     timeRemaining[0] --;
                 }
                 else{
@@ -50,7 +50,7 @@ public class RoundItem {
             }
         };
 
-        br.runTaskTimer(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L, 1L);
+        br.runTaskTimer(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L, 2L);
 
 
 }
@@ -84,7 +84,8 @@ public static void updateInventory(){
             e.members.get(i).getInventory().close();
             Send.allPlayer("The item this round is " + ChatColor.YELLOW + roundStack.getType().name());
             Send.allPlayer("Get ready to mine this block!");
-            BuildBlocks.build(e, roundStack);
+            BuildBlocks.build(roundStack);
+            RoundActive.begin();
         }
     }
 

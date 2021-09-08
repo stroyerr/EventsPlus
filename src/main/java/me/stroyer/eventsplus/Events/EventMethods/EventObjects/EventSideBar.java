@@ -23,7 +23,9 @@ public class EventSideBar {
         score2.setScore(8);
         Score score3 = objective.getScore("§6Colors");
         score3.setScore(7);
-        event.host.setScoreboard(sb);
+        for(int i = 0; i < event.members.size(); i++){
+            event.members.get(i).setScoreboard(sb);
+        }
     }
 
     public static void create(EventSideBar eventSideBar){

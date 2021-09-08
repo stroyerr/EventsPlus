@@ -1,11 +1,12 @@
 package me.stroyer.eventsplus;
 
+import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Arena.ArenaStorage.StorageManager;
 import me.stroyer.eventsplus.Commands.EventsPlus;
-import me.stroyer.eventsplus.Listeners.BlockActionInArena;
-import me.stroyer.eventsplus.Listeners.ChatListener;
-import me.stroyer.eventsplus.Listeners.InventoryInteract;
-import me.stroyer.eventsplus.Listeners.SelectionWand;
+import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
+import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
+import me.stroyer.eventsplus.Listeners.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -25,6 +26,8 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockActionInArena(), this);
         getServer().getPluginManager().registerEvents(new InventoryInteract(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerMovementEvent(), this);
+        getServer().getPluginManager().registerEvents(new ArenaActiveBlockInteraction(), this);
 
         File f = new File("./plugins/EventsPlus/arenas.eventsplus");
         try{
@@ -57,6 +60,10 @@ public final class Main extends JavaPlugin {
             StorageManager.save();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if(Event.activeEvent != null){
+            CloseEvent.close(Event.activeEvent);
         }
     }
 }

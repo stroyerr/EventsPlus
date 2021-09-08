@@ -3,6 +3,7 @@ package me.stroyer.eventsplus.Events.EventMethods.EventObjects;
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Methods.StaffOnline;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class Event {
     public String type;
     public List<EventPlayer> eventPlayers = new ArrayList<EventPlayer>();
     public int round;
+    public List<Block> activeEventBlocks;
+    public Boolean movementAllowed;
+    public Boolean inRound;
 
     public Event(Arena arena, Player host, String type) {
         this.arena = arena;
@@ -28,6 +32,8 @@ public class Event {
         this.members = new ArrayList<Player>(Bukkit.getOnlinePlayers());
         this.staff = StaffOnline.get();
         this.round = 1;
+        this.movementAllowed = true;
+        this.inRound = false;
         for(int i = 0; i < members.size(); i ++){
             eventPlayers.add(new EventPlayer(members.get(i)));
         }

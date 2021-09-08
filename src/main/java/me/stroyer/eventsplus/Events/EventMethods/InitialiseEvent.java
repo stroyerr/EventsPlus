@@ -7,6 +7,7 @@ import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class InitialiseEvent {
         if(event.type.equals("lucky_blocks")){
             TpAllToEvent.tp(event);
             EventSideBar sideBar = new EventSideBar(event);
+            event.activeEventBlocks = new ArrayList<Block>();
             Event.activeEvent = event;
 
             List<String> notification = new ArrayList<String>();

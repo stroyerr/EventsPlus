@@ -1,6 +1,7 @@
 package me.stroyer.eventsplus.Listeners;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
@@ -15,6 +16,10 @@ public class ChatListener implements Listener {
     public static void commandExecuted(PlayerCommandPreprocessEvent e){
         Event event = Event.activeEvent;
         if(Event.activeEvent == null){
+            return;
+        }
+        if(e.getPlayer().hasPermission("eventsplus.bypass") && e.getMessage().equalsIgnoreCase("/ep stop")){
+            CloseEvent.close(Event.activeEvent);
             return;
         }
         e.setCancelled(true);
@@ -33,7 +38,6 @@ public class ChatListener implements Listener {
                     e.setCancelled(true);
                 }
             }
-
         }
     }
 }

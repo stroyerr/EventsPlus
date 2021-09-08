@@ -4,10 +4,7 @@ import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventPlayer;
 import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 
 import static org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_CHIME;
@@ -70,9 +67,19 @@ public class LuckyBlockEvent {
 
     public static void endRound(){
         BlockData air = Bukkit.createBlockData(Material.AIR);
-        for(int i = 0; i < BuildBlocks.eventBlocks.size(); i ++){
-            BuildBlocks.eventBlocks.get(i).getWorld().setBlockData(BuildBlocks.eventBlocks.get(i), air);
+        for(int i = 0; i < e.activeEventBlocks.size(); i ++){
+            e.activeEventBlocks.get(i).getWorld().setBlockData(e.activeEventBlocks.get(i).getLocation(), air);
+            RoundActive.clearRanks();
         }
-        BuildBlocks.eventBlocks.clear();
+        e.activeEventBlocks.clear();
+
+        for(int i = 0; i < Event.activeEvent.members.size(); i++){
+            Event.activeEvent.members.get(i).setGameMode(GameMode.SURVIVAL);
+        }
+    }
+
+    public static void preRoundCountdown(){
+        int round = e.round;
+
     }
 }

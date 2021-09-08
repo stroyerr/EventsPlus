@@ -15,9 +15,10 @@ import java.util.Random;
 
 public class BuildBlocks {
 
-    public static List<Location> eventBlocks =  new ArrayList<Location>();
 
-    public static void build(Event event, ItemStack itemStack){
+    public static void build(ItemStack itemStack){
+        Event event = Event.activeEvent;
+        event.activeEventBlocks = new ArrayList<Block>();
         Arena a = event.arena;
         BlockData bd = Bukkit.createBlockData(itemStack.getType());
         for(int i = 0; i < event.members.size() + 5; i++){
@@ -27,7 +28,8 @@ public class BuildBlocks {
             Location safeLocation = l;
             safeLocation.setY(l.getWorld().getHighestBlockYAt(l) + 1);
             safeLocation.getWorld().setBlockData(safeLocation, bd);
-            eventBlocks.add(safeLocation);
+            event.activeEventBlocks.add(safeLocation.getBlock());
+            Event.activeEvent.activeEventBlocks = event.activeEventBlocks;
         }
     }
 }
