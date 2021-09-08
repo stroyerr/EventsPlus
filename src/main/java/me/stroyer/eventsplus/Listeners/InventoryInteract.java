@@ -1,6 +1,7 @@
 package me.stroyer.eventsplus.Listeners;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.RoundItem;
 import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
 import me.stroyer.eventsplus.Events.GUIs.SelectEventType;
 import me.stroyer.eventsplus.Events.GUIs.StartGUI;
@@ -37,6 +38,10 @@ public class InventoryInteract implements Listener {
         if(e.getInventory().equals(StaffController.inv)){
             e.setCancelled(true);
             StaffController.InventoryInteract(e);
+        }
+
+        if(e.getInventory().equals(RoundItem.inv)){
+            e.setCancelled(true);
         }
 
     }

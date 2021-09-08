@@ -2,6 +2,7 @@ package me.stroyer.eventsplus.Listeners;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.RoundActive;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +19,10 @@ public class ArenaActiveBlockInteraction implements Listener {
         if(Event.activeEvent.inRound){
             if(e.getAction().equals(Action.LEFT_CLICK_BLOCK) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
                 if(!Event.activeEvent.activeEventBlocks.contains(e.getClickedBlock())){
+                    return;
+                }
+
+                if(e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)){
                     return;
                 }
                 e.setCancelled(true);
