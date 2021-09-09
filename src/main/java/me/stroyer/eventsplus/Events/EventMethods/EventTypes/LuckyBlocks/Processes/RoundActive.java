@@ -3,6 +3,8 @@ package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Process
 import me.stroyer.eventsplus.Events.EventMethods.Countdown;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerPerformer;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.SetMovementSpeed;
 import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import net.md_5.bungee.api.ChatMessageType;
@@ -28,6 +30,8 @@ public class RoundActive {
             Event.activeEvent.members.get(i).setHealth(20);
             Event.activeEvent.members.get(i).setFlying(false);
             Event.activeEvent.members.get(i).setFoodLevel(20);
+            SetMovementSpeed.walkSpeed(0.5f);
+            activate();
         }
         Countdown.start();
     }
@@ -64,6 +68,8 @@ public class RoundActive {
 
     public static void roundPlayFinished(){
         TopPerformers.display(performers);
+        VoteRound.startVoteTimer();
+        Event.activeEvent.inRound = false;
 
         performers.clear();
     }

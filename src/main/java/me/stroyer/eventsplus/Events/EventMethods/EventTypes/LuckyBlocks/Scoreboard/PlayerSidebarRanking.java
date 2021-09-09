@@ -12,6 +12,5 @@ public class PlayerSidebarRanking {
     public int score;
 
     public PlayerSidebarRanking(EventPlayer ep){
-
     }
 }

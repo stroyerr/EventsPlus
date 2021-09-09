@@ -12,7 +12,7 @@ public class RandomBlock {
         while(material == null)
         {
             material = material.values()[random.nextInt(material.values().length)];
-            if(!(material.isBlock() || material.equals(Material.WATER) || material.equals(Material.LAVA)))
+            if(!(material.isBlock() || material.equals(Material.WATER) || material.equals(Material.LAVA) || material.equals(Material.BUBBLE_COLUMN)))
             {
                 material = null;
             }

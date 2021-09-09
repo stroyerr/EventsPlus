@@ -28,7 +28,7 @@ public class RoundItem {
     public static ItemStack roundStack;
 
     public static void open(int round, Event event){
-        inv = Bukkit.createInventory(null, 9, ChatColor.GOLD + "" + ChatColor.GOLD + "Round " + round + " block");
+        inv = Bukkit.createInventory(null, 9, ChatColor.GOLD + "" + ChatColor.GOLD + "Round " + Event.activeEvent.round + " block");
         ItemStack currentItem;
         e = event;
         final int[] timeRemaining = {40};

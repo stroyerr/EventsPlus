@@ -2,6 +2,7 @@ package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Process
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventPlayer;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.SetMovementSpeed;
 import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.*;
@@ -17,8 +18,10 @@ public class LuckyBlockEvent {
         Send.allPlayer("Type " + ChatColor.GREEN + "ready" + ChatColor.GOLD +" to ready up. Waiting for " + remaining() + " more players to ready up.");
     }
 
+    public static double amountReady;
+
     public static Boolean isReady(){
-        double amountReady = 0;
+        amountReady = 0;
         double amountRequired;
         amountRequired = Math.ceil(e.eventPlayers.size() / 2);
         for(int i = 0; i < e.eventPlayers.size(); i++){
@@ -48,6 +51,7 @@ public class LuckyBlockEvent {
                 Send.player(ep.player, ChatColor.GREEN + "Thanks for readying up! Waiting for " + remaining() + " more players to ready up.");
                 Send.allPlayer(ChatColor.GREEN + "Event starting!");
                 PlaySound.all(BLOCK_AMETHYST_BLOCK_CHIME);
+                amountReady = 0;
                 newRound();
             }else{
                 Send.allPlayer(ep.player.getName() + " has readied up. Waiting for " + remaining() + " more players to ready up.");
@@ -67,6 +71,7 @@ public class LuckyBlockEvent {
 
     public static void endRound(){
         BlockData air = Bukkit.createBlockData(Material.AIR);
+        SetMovementSpeed.walkSpeed(0.2f);
         for(int i = 0; i < Event.activeEvent.members.size(); i++){
             Event.activeEvent.members.get(i).setGameMode(GameMode.SURVIVAL);
             Event.activeEvent.members.get(i).getInventory().removeItem(Event.activeEvent.activeItemStack);
@@ -76,8 +81,9 @@ public class LuckyBlockEvent {
             RoundActive.clearRanks();
         }
         e.activeEventBlocks.clear();
-
-
+       for(int i = 0 ; i < Event.activeEvent.eventPlayers.size(); i ++){
+           Event.activeEvent.eventPlayers.get(i).isReady = false;
+       }
     }
 
     public static void preRoundCountdown(){

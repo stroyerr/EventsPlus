@@ -39,7 +39,6 @@ public class StartGUI {
 
     public static void InventoryEvent(InventoryClickEvent e){
         for(int i = 0; i < arenaItems.size(); i ++){
-            Bukkit.getLogger().info("1");
             if(e.getCurrentItem().equals(arenaItems.get(i).guiItem)){
                 Bukkit.getLogger().info("2");
                 Arena arena = arenaItems.get(i).arena;

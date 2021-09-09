@@ -3,6 +3,7 @@ package me.stroyer.eventsplus.Listeners;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.RoundItem;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.TopPerformers;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
 import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
 import me.stroyer.eventsplus.Events.GUIs.SelectEventType;
 import me.stroyer.eventsplus.Events.GUIs.StartGUI;
@@ -57,6 +58,11 @@ public class InventoryInteract implements Listener {
             TopPerformers.inventoryClicked(e);
         }
 
+        if(e.getInventory().equals(VoteRound.inv)){
+            e.setCancelled(true);
+            VoteRound.InventoryEvent(e);
+        }
+
     }
 
     @EventHandler
@@ -66,6 +72,9 @@ public class InventoryInteract implements Listener {
             e.setCancelled(true);
             Player p = e.getPlayer();
             StaffController.open(p);
+        }
+        if(e.getItem().equals(VoteRound.voteItem)){
+            VoteRound.openGUI(e.getPlayer());
         }
     }
 
