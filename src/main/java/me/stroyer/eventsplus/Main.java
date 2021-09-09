@@ -28,6 +28,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMovementEvent(), this);
         getServer().getPluginManager().registerEvents(new ArenaActiveBlockInteraction(), this);
+        getServer().getPluginManager().registerEvents(new PlayerHealthHunger(), this);
 
         File f = new File("./plugins/EventsPlus/arenas.eventsplus");
         try{

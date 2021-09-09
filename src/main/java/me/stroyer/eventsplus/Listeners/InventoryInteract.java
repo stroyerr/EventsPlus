@@ -2,9 +2,11 @@ package me.stroyer.eventsplus.Listeners;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.RoundItem;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.TopPerformers;
 import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
 import me.stroyer.eventsplus.Events.GUIs.SelectEventType;
 import me.stroyer.eventsplus.Events.GUIs.StartGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +17,7 @@ public class InventoryInteract implements Listener {
 
     @EventHandler
     public static void ItemClick(InventoryClickEvent e){
+
         if(e.getInventory().equals(DeleteUI.inv)){
             e.setCancelled(true);
             DeleteUI.InventoryEvent(e);
@@ -42,6 +45,16 @@ public class InventoryInteract implements Listener {
 
         if(e.getInventory().equals(RoundItem.inv)){
             e.setCancelled(true);
+        }
+
+        if(e.getInventory().equals(SelectEventType.inv)){
+            e.setCancelled(true);
+            SelectEventType.InventoryEvent(e);
+        }
+
+        if(e.getInventory().contains(TopPerformers.voteContinue)){
+            e.setCancelled(true);
+            TopPerformers.inventoryClicked(e);
         }
 
     }

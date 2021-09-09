@@ -1,6 +1,7 @@
 package me.stroyer.eventsplus.Events.EventMethods;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.RoundTimer;
 import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.Bukkit;
@@ -27,6 +28,7 @@ public class Countdown {
                     PlaySound.all(Sound.BLOCK_AMETHYST_BLOCK_BREAK);
                     allowMovement();
                     Event.activeEvent.inRound = true;
+                    RoundTimer.start();
                     this.cancel();
                 }
             }

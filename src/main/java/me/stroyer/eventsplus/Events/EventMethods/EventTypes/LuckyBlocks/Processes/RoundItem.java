@@ -3,6 +3,7 @@ package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Process
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.ReturnBlockRound;
 import me.stroyer.eventsplus.Events.EventMethods.RandomBlock;
+import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import me.stroyer.eventsplus.UI.Methods.FillBlank;
 import me.stroyer.eventsplus.UI.Methods.NewItem;
@@ -39,7 +40,10 @@ public class RoundItem {
                 if(timeRemaining[0] >=0){
                     timeRemaining[0] --;
                     updateInventory();
-                }else if(timeRemaining[0] >= -20 && timeRemaining[0] < 0){
+                } else if(timeRemaining[0] >= -20 && timeRemaining[0] < 0){
+                    if(timeRemaining[0] % 4 == 0){
+                        PlaySound.all(Sound.BLOCK_NOTE_BLOCK_PLING);
+                    }
                     timeRemaining[0] --;
                 }
                 else{
@@ -85,6 +89,7 @@ public static void updateInventory(){
             Send.allPlayer("The item this round is " + ChatColor.YELLOW + roundStack.getType().name());
             Send.allPlayer("Get ready to mine this block!");
             BuildBlocks.build(roundStack);
+            Event.activeEvent.activeItemStack = roundStack;
             RoundActive.begin();
         }
     }

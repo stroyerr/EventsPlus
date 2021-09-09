@@ -67,15 +67,17 @@ public class LuckyBlockEvent {
 
     public static void endRound(){
         BlockData air = Bukkit.createBlockData(Material.AIR);
+        for(int i = 0; i < Event.activeEvent.members.size(); i++){
+            Event.activeEvent.members.get(i).setGameMode(GameMode.SURVIVAL);
+            Event.activeEvent.members.get(i).getInventory().removeItem(Event.activeEvent.activeItemStack);
+        }
         for(int i = 0; i < e.activeEventBlocks.size(); i ++){
             e.activeEventBlocks.get(i).getWorld().setBlockData(e.activeEventBlocks.get(i).getLocation(), air);
             RoundActive.clearRanks();
         }
         e.activeEventBlocks.clear();
 
-        for(int i = 0; i < Event.activeEvent.members.size(); i++){
-            Event.activeEvent.members.get(i).setGameMode(GameMode.SURVIVAL);
-        }
+
     }
 
     public static void preRoundCountdown(){

@@ -1,16 +1,20 @@
-package me.stroyer.eventsplus.Events.EventMethods.EventObjects;
+package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard;
 
+import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.*;
 
+import java.util.List;
+
 public class EventSideBar {
 
     private ScoreboardManager sbm = Bukkit.getScoreboardManager();
-    public Scoreboard scoreboard;
+    public static Scoreboard scoreboard;
     public Objective objective;
 
     public EventSideBar(Event event){
+
         Scoreboard sb = sbm.getNewScoreboard();
         Objective objective = sb.registerNewObjective("test", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -30,5 +34,14 @@ public class EventSideBar {
 
     public static void create(EventSideBar eventSideBar){
 
+    }
+
+    public static void updatePlayerRankings(){
+
+        Objective scores = scoreboard.registerNewObjective("Scores", "");
+
+        for(int i = 0; i < Event.activeEvent.members.size(); i++){
+
+        }
     }
 }

@@ -5,6 +5,7 @@ import me.stroyer.eventsplus.Methods.StaffOnline;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Event {
     public List<Block> activeEventBlocks;
     public Boolean movementAllowed;
     public Boolean inRound;
+    public ItemStack activeItemStack;
 
     public Event(Arena arena, Player host, String type) {
         this.arena = arena;

@@ -42,6 +42,9 @@ public class BlockActionInArena implements Listener {
 
     @EventHandler
     public static void blockPlaceEvent(BlockPlaceEvent e){
+        if(Event.activeEvent == null){
+            return;
+        }
         if(Event.activeEvent.activeEventBlocks != null){
             Bukkit.getLogger().info("1");
             if(Event.activeEvent.activeEventBlocks.contains(e.getBlock())){

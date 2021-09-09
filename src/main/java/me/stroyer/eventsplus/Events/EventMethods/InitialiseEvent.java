@@ -2,7 +2,7 @@ package me.stroyer.eventsplus.Events.EventMethods;
 
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
-import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventSideBar;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.PlayerInteraction.Send;

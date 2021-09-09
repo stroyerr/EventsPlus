@@ -1,11 +1,9 @@
 package me.stroyer.eventsplus.Events.EventMethods;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
-import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.PlayerEventPreLocation;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
-import me.stroyer.eventsplus.Methods.StaffOnline;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

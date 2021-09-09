@@ -23,7 +23,7 @@ public class PlayerPerformer {
     }
 
     public static ItemStack createPlayerHead(Player p){
-        ItemStack skull = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (short) SkullType.PLAYER.ordinal());
 
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         meta.setOwner(p.getName());

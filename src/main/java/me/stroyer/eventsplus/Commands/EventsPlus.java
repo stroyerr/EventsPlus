@@ -110,6 +110,10 @@ public class EventsPlus implements CommandExecutor {
                 DeleteUI.open(p);
                 return true;
             }
+
+            if(args[0].equalsIgnoreCase("stop")){
+                return true;
+            }
         }
 
 
