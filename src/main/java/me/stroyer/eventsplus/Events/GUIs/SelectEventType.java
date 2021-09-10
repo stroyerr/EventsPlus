@@ -2,6 +2,7 @@ package me.stroyer.eventsplus.Events.GUIs;
 
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Events.EventMethods.InitialiseEvent;
+import me.stroyer.eventsplus.Events.EventMethods.Music;
 import me.stroyer.eventsplus.UI.Methods.FillBlank;
 import me.stroyer.eventsplus.UI.Methods.NewItem;
 import org.bukkit.Bukkit;
@@ -34,14 +35,22 @@ public class SelectEventType {
 
     }
 
+    public static Boolean alreadyCalled = false;
+
     public static void InventoryEvent(InventoryClickEvent e){
         if(e.getCurrentItem().equals(back)){
             e.getWhoClicked().openInventory(StartGUI.inv);
         }
 
         if(e.getCurrentItem().equals(luckyBlocks)){
+            if(alreadyCalled){
+                return;
+            }
             e.getWhoClicked().closeInventory();
+//            Music.initialiseSong(); // temporarily disabled
             InitialiseEvent.start(a, (Player) e.getWhoClicked(), "lucky_blocks");
+            Bukkit.getLogger().info("CALLED!");
+            alreadyCalled = true;
         }
     }
 

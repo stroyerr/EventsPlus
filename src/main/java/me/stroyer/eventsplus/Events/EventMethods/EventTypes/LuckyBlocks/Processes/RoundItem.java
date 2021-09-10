@@ -82,14 +82,16 @@ public static void updateInventory(){
 
         ItemStack roundItem = roundStack;
         roundStack = NewItem.createGuiItem(roundStack.getType(), ChatColor.AQUA + "Round " + round + " Item", ChatColor.GOLD + "Mine this item!");
+        BuildBlocks.build(roundStack);
+
         for(int i = 0; i < e.members.size(); i ++){
             e.members.get(i).getInventory().setItem(8, roundStack);
             e.members.get(i).getInventory().setHeldItemSlot(8);
             e.members.get(i).getInventory().close();
             Send.allPlayer("The item this round is " + ChatColor.YELLOW + roundStack.getType().name());
             Send.allPlayer("Get ready to mine this block!");
-            BuildBlocks.build(roundStack);
             Event.activeEvent.activeItemStack = roundStack;
+
             RoundActive.begin();
         }
     }

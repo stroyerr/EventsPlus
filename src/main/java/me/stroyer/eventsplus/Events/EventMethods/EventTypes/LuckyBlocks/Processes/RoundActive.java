@@ -68,9 +68,9 @@ public class RoundActive {
 
     public static void roundPlayFinished(){
         TopPerformers.display(performers);
-        VoteRound.startVoteTimer();
+        RoundTimer.cancelTimer();
         Event.activeEvent.inRound = false;
-
+        VoteRound.startVoteTimer();
         performers.clear();
     }
 

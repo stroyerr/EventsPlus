@@ -1,9 +1,11 @@
 package me.stroyer.eventsplus.Methods;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
+import me.stroyer.eventsplus.Arena.Arenas;
+import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,4 +17,11 @@ public class PlaySound {
             Bukkit.getLogger().info("player");
              }
     }
-}
+
+    public static void allCatSong() {
+            Player player = Event.activeEvent.host;
+//            player.getWorld().playEffect(player.getLocation(), Effect.RECORD_PLAY, Material.MUSIC_DISC_CAT, 100000);
+//            player.playEffect(player.getLocation(), Effect.RECORD_PLAY, Material.MUSIC_DISC_CAT, 10000);
+        player.getWorld().playSound(player.getLocation(), Sound.MUSIC_DISC_CAT, 500f, 1f);
+        }
+    }

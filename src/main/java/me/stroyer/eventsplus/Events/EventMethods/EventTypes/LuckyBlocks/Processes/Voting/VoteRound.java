@@ -100,9 +100,8 @@ public class VoteRound {
 
                 if(i == 0){
                     PlaySound.all(Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
-                    voteFinished();
                     this.cancel();
-
+                    voteFinished();
                 }
             }
         };
@@ -111,7 +110,9 @@ public class VoteRound {
     }
 
     public static void cancelVoteTimer(){
-        voteTimer.cancel();
+        if(voteTimer != null){
+            voteTimer.cancel();
+        }
     }
 
     private static Arena mostPopularArena = null;
@@ -165,7 +166,10 @@ public class VoteRound {
     public static Score score;
 
     public static void voteTimerScoreboardDisplay(){
+        Bukkit.getLogger().info("made it to 2");
+        sbm = Bukkit.getScoreboardManager();
         Scoreboard sb = sbm.getNewScoreboard();
+        Bukkit.getLogger().info("Made it to 1");
         objective = sb.registerNewObjective("voteBoard", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Voting " + ChatColor.YELLOW + "Round");
@@ -174,6 +178,7 @@ public class VoteRound {
         score3 = objective.getScore(ChatColor.GREEN + "" + ChatColor.BOLD + "Time remaining    > ");
         score3.setScore(timeRemaining);
 
+        Bukkit.getLogger().info("made it to 3");
         for(int i = 0; i < Event.activeEvent.members.size(); i++){
             Event.activeEvent.members.get(i).setScoreboard(sb);
         }

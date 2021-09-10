@@ -29,8 +29,7 @@ public class InitialiseEvent {
             Event.activeEvent = event;
             TpAllToEvent.tp(event);
             if(LuckyBlockLocations.generateLuckyBlockLocationsForArena(arena).size() < 10 || LuckyBlockLocations.getSpawnLocation(arena) == null){
-                Bukkit.getLogger().info("size  - " + LuckyBlockLocations.generateLuckyBlockLocationsForArena(arena).size() + " for arena " + arena.name + " and spawn location at " + LuckyBlockLocations.getSpawnLocation(arena).toString());
-                Send.player(host, ChatColor.RED + "This arena needs " + (10 - LuckyBlockLocations.getLuckyBlockLocations().size()) + " more block spawn locations. Create a block spawn location by placing a GOLD BLOCK inside the arena and or you failed to set a spawn location in the arena with a SCAFFOLD block.");
+                Send.player(host, ChatColor.RED + "This arena needs " + (10 - LuckyBlockLocations.generateLuckyBlockLocationsForArena(arena).size()) + " more block spawn locations. Create a block spawn location by placing a GOLD BLOCK inside the arena and or you failed to set a spawn location in the arena with a SCAFFOLD block.");
                 LuckyBlockEvent.endRound();
                 CloseEvent.close(event);
                 return;

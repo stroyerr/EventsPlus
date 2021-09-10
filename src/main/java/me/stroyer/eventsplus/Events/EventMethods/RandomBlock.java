@@ -16,6 +16,12 @@ public class RandomBlock {
             {
                 material = null;
             }
+            if(material != null){
+                if(!material.isItem()){
+                    material = null;
+                }
+            }
+
         }
         ItemStack item = new ItemStack(material, 1);
         return item;

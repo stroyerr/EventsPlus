@@ -24,6 +24,7 @@ package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Process
 
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -75,6 +76,7 @@ public class LuckyBlockLocations {
     private static Location spawnBlock;
 
     public static Location getSpawnLocation(Arena arena){
+        Bukkit.getLogger().info("recieved spawn request 2");
         for(int i = 0; i < arena.locations.size(); i++){
             if(arena.locations.get(i).location.getBlock().getType().equals(Material.SCAFFOLDING)){
                 spawnBlock = arena.locations.get(i).location;

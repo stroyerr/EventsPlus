@@ -27,18 +27,23 @@ public class TopPerformers {
         inv = Bukkit.createInventory(null, 45, "Top Performers in Round " + Event.activeEvent.round);
 
         if(performers.size() == 0){
-            return;
+            inv.setItem(22, NewItem.createGuiItem(Material.BARRIER, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Nobody got a block this round! BOOO!"));
         }
 
-        if(performers.size() <=3){
+        if(performers.size() <=3 && performers.size() > 0){
             for(int i = 0; i < performers.size(); i++){
                 inv.setItem((i+1)*9 + 5, PlayerPerformer.createPlayerHead(performers.get(i).player));
             }
             inv.setItem(12, NewItem.createGuiItem(Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + "First Place", performers.get(0).player.getName() + " got a lucky block first."));
-        }else{
+            inv.setItem(21, NewItem.createGuiItem(Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + "Second Place", performers.get(0).player.getName() + " got a lucky block second."));
+            inv.setItem(30, NewItem.createGuiItem(Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + "Third Place", performers.get(0).player.getName() + " got a lucky block third."));
+
+        }else if(performers.size() > 0){
             for(int i = 0; i < 3; i++){
                 performers.get(i);
             }
+        }else{
+            inv.setItem(22, NewItem.createGuiItem(Material.BARRIER, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Nobody got a block this round! BOOO!"));
         }
 
         voteContinue = NewItem.createGuiItem(Material.EMERALD_BLOCK, ChatColor.GREEN + "Vote for next arena", "Vote on what arena to play next!");
@@ -46,8 +51,8 @@ public class TopPerformers {
 
         inv = FillBlank.updateInventory(inv);
 
-        for(int i = 0; i < performers.size(); i++){
-            performers.get(i).player.openInventory(inv);
+        for(int i = 0; i < Event.activeEvent.members.size(); i++){
+            Event.activeEvent.members.get(i).openInventory(inv);
         }
     }
 

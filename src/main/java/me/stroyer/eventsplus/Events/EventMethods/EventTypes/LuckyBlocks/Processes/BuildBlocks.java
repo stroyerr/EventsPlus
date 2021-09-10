@@ -34,6 +34,9 @@ public class BuildBlocks {
     }
 
     public static void particles(){
+        if(Event.activeEvent == null){
+            return;
+        }
         for(int i = 0; i < Event.activeEvent.activeEventBlocks.size(); i++){
             Location location = Event.activeEvent.activeEventBlocks.get(i).getLocation();
             location.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, location.getBlockX() + 0.5, location.getBlockY() + 0.5, location.getBlockZ() + 0.5, 10);

@@ -19,10 +19,10 @@ public class Send {
         player.sendMessage(ChatColor.GRAY + "----------------------------------------");
         player(player, ChatColor.YELLOW + firstLine);
         player.sendMessage("");
-        message.add(ChatColor.GRAY + "----------------------------------------");
         for(int i = 0; i < message.size(); i ++){
             player.sendMessage(ChatColor.GOLD + message.get(i));
         }
+        player.sendMessage(ChatColor.GRAY + "----------------------------------------");
     }
 
     public static void allMultipleLines(List<String> message, String firstLine){

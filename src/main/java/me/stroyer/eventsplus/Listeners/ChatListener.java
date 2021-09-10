@@ -20,6 +20,7 @@ public class ChatListener implements Listener {
         }
         if(e.getPlayer().hasPermission("eventsplus.bypass") && e.getMessage().equalsIgnoreCase("/ep stop")){
             e.getPlayer().sendMessage(ChatColor.RED + "This command is not supported and is not to be used unless something went wrong. Instead, use the \"Close Event\" button in your staff controller.");
+            LuckyBlockEvent.endRound();
             CloseEvent.close(Event.activeEvent);
             return;
         }
@@ -30,6 +31,9 @@ public class ChatListener implements Listener {
     @EventHandler
     public static void playerReadiesUp(AsyncPlayerChatEvent e){
         if(!LuckyBlockEvent.isWaiting){
+            return;
+        }
+        if(Event.activeEvent == null){
             return;
         }
         if(e.getMessage().equalsIgnoreCase("ready")){

@@ -19,7 +19,7 @@ public class RoundTimer {
                     RoundActive.timerEvent(i);
                     i--;
                 }else{
-                    RoundActive.timerFinished();
+                    roundFinished();
                     this.cancel();
                 }
             }
@@ -33,5 +33,14 @@ public class RoundTimer {
             backGroundTimer.cancel();
         }
 
+    }
+
+    public static void roundFinished(){
+        Bukkit.getScheduler().runTask(Bukkit.getServer().getPluginManager().getPlugin("EventsPlus"), new Runnable() {
+            @Override
+            public void run() {
+                RoundActive.timerFinished();
+            }
+        });
     }
 }
