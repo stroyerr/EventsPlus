@@ -22,12 +22,11 @@ public class BuildBlocks {
         event.activeEventBlocks = new ArrayList<Block>();
         Arena a = event.arena;
         BlockData bd = Bukkit.createBlockData(itemStack.getType());
-        for(int i = 0; i < event.members.size() + 5; i++){
+        for(int i = 0; i < 10; i++){
             Random random = new Random();
-            int j = random.nextInt(event.arena.locations.size());
-            Location l = event.arena.locations.get(j).location;
+            int j = random.nextInt(LuckyBlockLocations.getLuckyBlockLocations().size());
+            Location l = LuckyBlockLocations.getLuckyBlockLocations().get(j);
             Location safeLocation = l;
-            safeLocation.setY(l.getWorld().getHighestBlockYAt(l) + 1);
             safeLocation.getWorld().setBlockData(safeLocation, bd);
             event.activeEventBlocks.add(safeLocation.getBlock());
             Event.activeEvent.activeEventBlocks = event.activeEventBlocks;

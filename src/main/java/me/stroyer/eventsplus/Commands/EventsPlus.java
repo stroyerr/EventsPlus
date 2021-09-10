@@ -21,6 +21,20 @@ import java.util.List;
 
 public class EventsPlus implements CommandExecutor {
 
+    public static String[] commands = {
+            "start",
+            "help",
+            "delete",
+            "arena",
+            "stop",
+            "listarenas"
+    };
+
+    public static String[] arenaCommands = {
+            "create",
+            "save"
+    };
+
     private Main main;
     public EventsPlus(Main main){this.main = main;}
 
@@ -122,4 +136,5 @@ public class EventsPlus implements CommandExecutor {
 
         return true;
     }
+
 }

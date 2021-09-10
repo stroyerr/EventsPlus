@@ -3,10 +3,12 @@ package me.stroyer.eventsplus;
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Arena.ArenaStorage.StorageManager;
 import me.stroyer.eventsplus.Commands.EventsPlus;
+import me.stroyer.eventsplus.Commands.TabCompleter;
 import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.Listeners.*;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -21,7 +23,9 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
+        //Bukkit.getServer().getPluginManager().getPlugin("EventsPlus").saveDefaultConfig();
         getCommand("EventsPlus").setExecutor(new EventsPlus(this));
+        getCommand("EventsPlus").setTabCompleter(new TabCompleter());
         getServer().getPluginManager().registerEvents(new SelectionWand(), this);
         getServer().getPluginManager().registerEvents(new BlockActionInArena(), this);
         getServer().getPluginManager().registerEvents(new InventoryInteract(), this);

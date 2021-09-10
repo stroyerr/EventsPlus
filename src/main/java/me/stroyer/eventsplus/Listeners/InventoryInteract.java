@@ -4,10 +4,13 @@ import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.RoundItem;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.TopPerformers;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
+import me.stroyer.eventsplus.Events.EventMethods.PlayersVisibility;
 import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
 import me.stroyer.eventsplus.Events.GUIs.SelectEventType;
 import me.stroyer.eventsplus.Events.GUIs.StartGUI;
+import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -75,6 +78,11 @@ public class InventoryInteract implements Listener {
         }
         if(e.getItem().equals(VoteRound.voteItem)){
             VoteRound.openGUI(e.getPlayer());
+        }
+
+        if(e.getItem().equals(PlayersVisibility.getToggleItem())){
+            PlayersVisibility.toggleAllVisible(e.getPlayer());
+            e.setCancelled(true);
         }
     }
 

@@ -29,6 +29,9 @@ public class RoundTimer {
     }
 
     public static void cancelTimer(){
-        backGroundTimer.cancel();
+        if(backGroundTimer != null){
+            backGroundTimer.cancel();
+        }
+
     }
 }

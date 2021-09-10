@@ -14,6 +14,8 @@ public class LuckyBlockEvent {
     public static Event e;
     public static boolean isWaiting = true;
     public static void initialise(Event event){
+        LuckyBlockLocations.generateLuckyBlockLocations();
+        LuckyBlockLocations.destroyerPlaceholderBlocks();
         e = event;
         Send.allPlayer("Type " + ChatColor.GREEN + "ready" + ChatColor.GOLD +" to ready up. Waiting for " + remaining() + " more players to ready up.");
     }
@@ -65,16 +67,20 @@ public class LuckyBlockEvent {
     }
 
     public static void newRound(){
-        int newRoundNumber = e.round;
-        RoundItem.open(e.round, e);
+        int newRoundNumber = Event.activeEvent.round;
+        RoundItem.open(Event.activeEvent.round, Event.activeEvent);
     }
 
     public static void endRound(){
+        RoundTimer.cancelTimer();
         BlockData air = Bukkit.createBlockData(Material.AIR);
         SetMovementSpeed.walkSpeed(0.2f);
         for(int i = 0; i < Event.activeEvent.members.size(); i++){
             Event.activeEvent.members.get(i).setGameMode(GameMode.SURVIVAL);
-            Event.activeEvent.members.get(i).getInventory().removeItem(Event.activeEvent.activeItemStack);
+            if(Event.activeEvent.activeItemStack == null){}else{
+                Event.activeEvent.members.get(i).getInventory().removeItem(Event.activeEvent.activeItemStack);
+            }
+
         }
         for(int i = 0; i < e.activeEventBlocks.size(); i ++){
             e.activeEventBlocks.get(i).getWorld().setBlockData(e.activeEventBlocks.get(i).getLocation(), air);
@@ -84,6 +90,8 @@ public class LuckyBlockEvent {
        for(int i = 0 ; i < Event.activeEvent.eventPlayers.size(); i ++){
            Event.activeEvent.eventPlayers.get(i).isReady = false;
        }
+
+       LuckyBlockLocations.clearLocations();
     }
 
     public static void preRoundCountdown(){

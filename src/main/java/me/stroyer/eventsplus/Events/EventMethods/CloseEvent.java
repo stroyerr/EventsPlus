@@ -28,6 +28,7 @@ public class CloseEvent {
 
         for(int i = 0; i < members.size(); i++){
             members.get(i).getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+            members.get(i).getInventory().removeItem(PlayersVisibility.getToggleItem());
             for(int j = 0; j < teleportLocations.size(); j++){
                 if(members.get(i).equals(teleportLocations.get(j).player)){
                     members.get(i).teleport(teleportLocations.get(j).location);

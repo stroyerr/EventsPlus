@@ -2,6 +2,7 @@ package me.stroyer.eventsplus.Events.EventMethods;
 
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockLocations;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
@@ -19,10 +20,20 @@ public class InitialiseEvent {
         arena.active = true;
 
         if(event.type.equals("lucky_blocks")){
-            TpAllToEvent.tp(event);
+
+
             EventSideBar sideBar = new EventSideBar(event);
             event.activeEventBlocks = new ArrayList<Block>();
             Event.activeEvent = event;
+            TpAllToEvent.tp(event);
+            if(LuckyBlockLocations.generateLuckyBlockLocationsForArena(arena).size() < 10 || LuckyBlockLocations.getSpawnLocation(arena) == null){
+                Send.player(host, ChatColor.RED + "This arena needs " + (10 - LuckyBlockLocations.getLuckyBlockLocations().size()) + " more block spawn locations. Create a block spawn location by placing a GOLD BLOCK inside the arena and or you failed to set a spawn location in the arena with a SCAFFOLD block.");
+                LuckyBlockEvent.endRound();
+                CloseEvent.close(event);
+                return;
+            }
+
+            PlayersVisibility.giveAllToggleItem();
 
             List<String> notification = new ArrayList<String>();
             notification.add("Each round, you will be assigned a random block to break.");
