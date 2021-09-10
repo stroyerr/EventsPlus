@@ -4,6 +4,7 @@ import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Arena.Arenas;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockLocations;
 import me.stroyer.eventsplus.Events.EventMethods.TpAllToEvent;
 import me.stroyer.eventsplus.Events.GUIs.SelectEventType;
 import me.stroyer.eventsplus.Methods.PlaySound;
@@ -77,9 +78,11 @@ public class VoteRound {
         }
     }
 
+    private static BukkitRunnable voteTimer;
+
     public static void startVoteTimer(){
         voteTimerScoreboardDisplay();
-        BukkitRunnable voteTimer = new BukkitRunnable() {
+        voteTimer = new BukkitRunnable() {
 
             int i = 30;
 
@@ -87,10 +90,14 @@ public class VoteRound {
             public void run() {
                 voteRoundTimeRemaining = i;
                 updateVoteTimer(i);
-                if(i <=5 && i > 1){
-                    PlaySound.all((Sound.BLOCK_NOTE_BLOCK_PLING));
+                if(i > 5 && i <=30){
+                    i--;
                 }
-                i--;
+                if(i <=5 && i > 0){
+                    PlaySound.all((Sound.BLOCK_NOTE_BLOCK_PLING));
+                    i--;
+                }
+
                 if(i == 0){
                     PlaySound.all(Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
                     voteFinished();
@@ -103,10 +110,19 @@ public class VoteRound {
         voteTimer.runTaskTimer(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L, 20L );
     }
 
+    public static void cancelVoteTimer(){
+        voteTimer.cancel();
+    }
+
     private static Arena mostPopularArena = null;
     private static int votesOf = 0;
 
     public static void voteFinished(){
+        if(Event.activeEvent == null){
+            return;
+        }
+        voteTimer.cancel();
+        Bukkit.getLogger().info("vote finished");
         mostPopularArena = null;
         votesOf = 0;
         for(int i = 0; i < Arenas.arenas.size(); i ++){
@@ -165,6 +181,9 @@ public class VoteRound {
 
     public static void beginNewRound(Arena arena){
 
+        LuckyBlockLocations.clearLocations();
+
+        LuckyBlockLocations.repairSpawnBlock();
         mostPopularArena = null;
         votesOf = 0;
 
@@ -174,6 +193,7 @@ public class VoteRound {
         Event.activeEvent.inRound = false;
 
         Event.activeEvent.arena = arena;
+        LuckyBlockLocations.generateLuckyBlockLocations();
         TpAllToEvent.tp(Event.activeEvent);
 
         LuckyBlockEvent.initialise(Event.activeEvent);

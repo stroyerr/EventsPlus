@@ -7,6 +7,7 @@ import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboa
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ public class InitialiseEvent {
     public static void start(Arena arena, Player host, String type){
         Event event = new Event(arena, host, type);
         arena.active = true;
+        Event.activeEvent = event;
 
         if(event.type.equals("lucky_blocks")){
 
@@ -27,6 +29,7 @@ public class InitialiseEvent {
             Event.activeEvent = event;
             TpAllToEvent.tp(event);
             if(LuckyBlockLocations.generateLuckyBlockLocationsForArena(arena).size() < 10 || LuckyBlockLocations.getSpawnLocation(arena) == null){
+                Bukkit.getLogger().info("size  - " + LuckyBlockLocations.generateLuckyBlockLocationsForArena(arena).size() + " for arena " + arena.name + " and spawn location at " + LuckyBlockLocations.getSpawnLocation(arena).toString());
                 Send.player(host, ChatColor.RED + "This arena needs " + (10 - LuckyBlockLocations.getLuckyBlockLocations().size()) + " more block spawn locations. Create a block spawn location by placing a GOLD BLOCK inside the arena and or you failed to set a spawn location in the arena with a SCAFFOLD block.");
                 LuckyBlockEvent.endRound();
                 CloseEvent.close(event);

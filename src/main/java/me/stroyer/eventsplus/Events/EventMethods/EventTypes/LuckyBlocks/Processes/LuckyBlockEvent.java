@@ -2,6 +2,7 @@ package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Process
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.EventPlayer;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.SetMovementSpeed;
 import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
@@ -14,6 +15,7 @@ public class LuckyBlockEvent {
     public static Event e;
     public static boolean isWaiting = true;
     public static void initialise(Event event){
+        Event.activeEvent = event;
         LuckyBlockLocations.generateLuckyBlockLocations();
         LuckyBlockLocations.destroyerPlaceholderBlocks();
         e = event;
@@ -73,6 +75,7 @@ public class LuckyBlockEvent {
 
     public static void endRound(){
         RoundTimer.cancelTimer();
+        VoteRound.cancelVoteTimer();
         BlockData air = Bukkit.createBlockData(Material.AIR);
         SetMovementSpeed.walkSpeed(0.2f);
         for(int i = 0; i < Event.activeEvent.members.size(); i++){
@@ -82,16 +85,24 @@ public class LuckyBlockEvent {
             }
 
         }
-        for(int i = 0; i < e.activeEventBlocks.size(); i ++){
-            e.activeEventBlocks.get(i).getWorld().setBlockData(e.activeEventBlocks.get(i).getLocation(), air);
-            RoundActive.clearRanks();
-        }
-        e.activeEventBlocks.clear();
-       for(int i = 0 ; i < Event.activeEvent.eventPlayers.size(); i ++){
-           Event.activeEvent.eventPlayers.get(i).isReady = false;
-       }
+        e = Event.activeEvent;
+        if(e.activeEventBlocks == null){
 
-       LuckyBlockLocations.clearLocations();
+        }else{
+            for(int i = 0; i < e.activeEventBlocks.size(); i ++){
+                e.activeEventBlocks.get(i).getWorld().setBlockData(e.activeEventBlocks.get(i).getLocation(), air);
+                RoundActive.clearRanks();
+            }
+            e.activeEventBlocks.clear();
+
+        }
+
+        if(e.eventPlayers != null && e.eventPlayers.size() > 0){
+            for(int i = 0 ; i < Event.activeEvent.eventPlayers.size(); i ++){
+                Event.activeEvent.eventPlayers.get(i).isReady = false;
+            }
+        }
+
     }
 
     public static void preRoundCountdown(){
