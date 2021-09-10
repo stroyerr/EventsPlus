@@ -39,6 +39,8 @@ public class RoundTimer {
         Bukkit.getScheduler().runTask(Bukkit.getServer().getPluginManager().getPlugin("EventsPlus"), new Runnable() {
             @Override
             public void run() {
+                RoundActive.roundPlayFinished();
+                RoundTimer.cancelTimer();
                 RoundActive.timerFinished();
             }
         });

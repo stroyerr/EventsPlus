@@ -42,7 +42,7 @@ public class TopPerformers {
             for(int i = 0; i < 3; i++){
                 performers.get(i);
             }
-        }else{
+        }if(performers.size() == 0){
             inv.setItem(22, NewItem.createGuiItem(Material.BARRIER, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Nobody got a block this round! BOOO!"));
         }
 
