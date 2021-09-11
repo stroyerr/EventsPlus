@@ -10,13 +10,13 @@ public class RoundTimer {
     public static void start(){
         backGroundTimer = new BukkitRunnable() {
 
-            int i = 30;
+            int i = 60;
 
             @Override
             public void run() {
                 BuildBlocks.particles();
                 if(i > 0){
-                    RoundActive.timerEvent(i);
+                    RoundActive.timerEvent(i/2);
                     i--;
                 }else{
                     roundFinished();
@@ -25,7 +25,7 @@ public class RoundTimer {
             }
         };
 
-        backGroundTimer.runTaskTimerAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("EventsPlus"), 0L, 20L);
+        backGroundTimer.runTaskTimerAsynchronously(Bukkit.getServer().getPluginManager().getPlugin("EventsPlus"), 0L, 10L);
     }
 
     public static void cancelTimer(){

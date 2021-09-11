@@ -3,6 +3,7 @@ package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Process
 import me.stroyer.eventsplus.Events.EventMethods.Countdown;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerPerformer;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerScore.PlayerScore;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.SetMovementSpeed;
 import me.stroyer.eventsplus.Methods.PlaySound;
@@ -44,6 +45,14 @@ public class RoundActive {
         ranks.add(p);
         Send.allPlayer(p.getName() + " has gotten a lucky block! They came in position " + ranks.size());
         Reward.basic(p);
+        for(int i = 0; i < PlayerScore.playerScores.size(); i++){
+            if(p.equals(PlayerScore.playerScores.get(i).player)){
+                PlayerScore.playerScores.get(i).givePoints(Event.activeEvent.members.size() - PlayerScore.getPlayersFinished());
+                PlayerScore.playerFinished();
+                p.sendMessage("You now have " + PlayerScore.playerScores.get(i).score + " points!");
+                break;
+            }
+        }
         performers.add(new PlayerPerformer(p, ranks.size()));
         p.setGameMode(GameMode.SPECTATOR);
         if(checkRoundShouldFinish()){
@@ -54,6 +63,7 @@ public class RoundActive {
     }
 
     public static void clearRanks(){
+        PlayerScore.resetPlayerFinishedCount();
         ranks.clear();
     }
 

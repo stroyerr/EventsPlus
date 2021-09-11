@@ -56,6 +56,8 @@ public class LuckyBlockEvent {
                 Send.allPlayer(ChatColor.GREEN + "Event starting!");
                 PlaySound.all(BLOCK_AMETHYST_BLOCK_CHIME);
                 amountReady = 0;
+                ep.isReady = false;
+                isWaiting = false;
                 newRound();
             }else{
                 Send.allPlayer(ep.player.getName() + " has readied up. Waiting for " + remaining() + " more players to ready up.");
@@ -69,6 +71,7 @@ public class LuckyBlockEvent {
     }
 
     public static void newRound(){
+        isWaiting = true;
         int newRoundNumber = Event.activeEvent.round;
         RoundItem.open(Event.activeEvent.round, Event.activeEvent);
     }
@@ -94,6 +97,7 @@ public class LuckyBlockEvent {
                 RoundActive.clearRanks();
             }
             e.activeEventBlocks.clear();
+            Event.activeEvent.round ++;
 
         }
 

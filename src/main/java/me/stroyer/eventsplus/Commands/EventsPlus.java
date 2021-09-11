@@ -29,7 +29,8 @@ public class EventsPlus implements CommandExecutor {
             "arena",
             "stop",
             "listarenas",
-            "license"
+            "license",
+            "tp"
     };
 
     public static String[] arenaCommands = {

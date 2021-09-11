@@ -2,6 +2,7 @@ package me.stroyer.eventsplus.Events.EventMethods;
 
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerScore.PlayerScore;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockLocations;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
@@ -46,7 +47,7 @@ public class InitialiseEvent {
             notification.add(ChatColor.GRAY + "Brought to you by Stroyer_ for LonelyMC");
 
             Send.allMultipleLines(notification, ChatColor.BOLD + "LuckyBlocks" + ChatColor.WHITE + "    Participants: " + event.members.size());
-
+            PlayerScore.generatePlayerScoreList();
             StaffController.giveStaff();
             LuckyBlockEvent.initialise(event);
 
