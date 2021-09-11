@@ -26,24 +26,23 @@ public class TopPerformers {
 
         inv = Bukkit.createInventory(null, 45, "Top Performers in Round " + Event.activeEvent.round);
 
-        if(performers.size() == 0){
-            inv.setItem(22, NewItem.createGuiItem(Material.BARRIER, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Nobody got a block this round! BOOO!"));
-        }
+        Bukkit.getLogger().info("Size of performers: " + performers.size());
 
         if(performers.size() <=3 && performers.size() > 0){
             for(int i = 0; i < performers.size(); i++){
                 inv.setItem((i+1)*9 + 5, PlayerPerformer.createPlayerHead(performers.get(i).player));
             }
             inv.setItem(12, NewItem.createGuiItem(Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + "First Place", performers.get(0).player.getName() + " got a lucky block first."));
-            inv.setItem(21, NewItem.createGuiItem(Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + "Second Place", performers.get(0).player.getName() + " got a lucky block second."));
-            inv.setItem(30, NewItem.createGuiItem(Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + "Third Place", performers.get(0).player.getName() + " got a lucky block third."));
-
-        }else if(performers.size() > 0){
-            for(int i = 0; i < 3; i++){
-                performers.get(i);
+            if(performers.size() > 1){
+                inv.setItem(21, NewItem.createGuiItem(Material.GOLD_INGOT, ChatColor.GOLD + "Second Place", performers.get(1).player.getName() + " got a lucky block second."));
+                if(performers.size() > 2){
+                    inv.setItem(30, NewItem.createGuiItem(Material.IRON_INGOT, ChatColor.WHITE + "Third Place", performers.get(2).player.getName() + " got a lucky block third."));
+                }
             }
-        }if(performers.size() == 0){
-            inv.setItem(22, NewItem.createGuiItem(Material.BARRIER, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Nobody got a block this round! BOOO!"));
+        }
+
+        if(performers.size() == 0){
+            inv.setItem(22, NewItem.createGuiItem(Material.BARRIER, ChatColor.DARK_RED + "" + ChatColor.BOLD + "Nobody got a block this round!"));
         }
 
         voteContinue = NewItem.createGuiItem(Material.EMERALD_BLOCK, ChatColor.GREEN + "Vote for next arena", "Vote on what arena to play next!");
@@ -69,7 +68,6 @@ public class TopPerformers {
         }
 
         if(nextRoundTrue){
-            LuckyBlockEvent.endRound();
             VoteRound.start(player);
         }else{
             LuckyBlockEvent.endRound();

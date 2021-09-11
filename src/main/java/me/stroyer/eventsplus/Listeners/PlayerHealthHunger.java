@@ -11,6 +11,9 @@ public class PlayerHealthHunger  implements Listener {
     @EventHandler
     public static void onDamage(EntityDamageEvent e){
         if (e.getEntity() instanceof Player){
+            if(Event.activeEvent == null){
+                return;
+            }
             if(Event.activeEvent.members == null){
                 return;
             }

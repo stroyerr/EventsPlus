@@ -1,6 +1,7 @@
 package me.stroyer.eventsplus.Events.EventMethods.EventObjects;
 
 import me.stroyer.eventsplus.Arena.Arena;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.RankingScoreboard;
 import me.stroyer.eventsplus.Methods.StaffOnline;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -26,6 +27,7 @@ public class Event {
     public Boolean movementAllowed;
     public Boolean inRound;
     public ItemStack activeItemStack;
+    public RankingScoreboard rankingScoreboard;
 
     public Event(Arena arena, Player host, String type) {
         this.arena = arena;
@@ -36,6 +38,7 @@ public class Event {
         this.round = 1;
         this.movementAllowed = true;
         this.inRound = false;
+
         for(int i = 0; i < members.size(); i ++){
             eventPlayers.add(new EventPlayer(members.get(i)));
         }

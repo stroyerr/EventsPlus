@@ -5,6 +5,7 @@ import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerPerformer;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerScore.PlayerScore;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.RankingScoreboard;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.SetMovementSpeed;
 import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
@@ -32,9 +33,11 @@ public class RoundActive {
             Event.activeEvent.members.get(i).setFlying(false);
             Event.activeEvent.members.get(i).setFoodLevel(20);
             SetMovementSpeed.walkSpeed(0.5f);
+            Event.activeEvent.rankingScoreboard.showScoreboard();
             activate();
         }
         Countdown.start();
+        showPerformersAlready = false;
     }
 
     public static void activate(){
@@ -49,6 +52,7 @@ public class RoundActive {
             if(p.equals(PlayerScore.playerScores.get(i).player)){
                 PlayerScore.playerScores.get(i).givePoints(Event.activeEvent.members.size() - PlayerScore.getPlayersFinished());
                 PlayerScore.playerFinished();
+                Event.activeEvent.rankingScoreboard = new RankingScoreboard();
                 p.sendMessage("You now have " + PlayerScore.playerScores.get(i).score + " points!");
                 break;
             }
@@ -69,19 +73,24 @@ public class RoundActive {
 
     public static Boolean checkRoundShouldFinish(){
         if(ranks.size() >= Event.activeEvent.members.size()){
-            Bukkit.getLogger().info("testing 1");
             return true;
         }else{
             return false;
         }
     }
 
+    private static Boolean showPerformersAlready;
+
     public static void roundPlayFinished(){
+        if(showPerformersAlready){
+            return;
+        }
         TopPerformers.display(performers);
         RoundTimer.cancelTimer();
         Event.activeEvent.inRound = false;
         VoteRound.startVoteTimer();
         performers.clear();
+        showPerformersAlready = true;
     }
 
     public static void timerFinished(){

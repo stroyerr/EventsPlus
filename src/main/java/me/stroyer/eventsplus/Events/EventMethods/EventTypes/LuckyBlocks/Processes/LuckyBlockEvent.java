@@ -18,6 +18,7 @@ public class LuckyBlockEvent {
         Event.activeEvent = event;
         LuckyBlockLocations.generateLuckyBlockLocations();
         LuckyBlockLocations.destroyerPlaceholderBlocks();
+        Event.activeEvent.rankingScoreboard.showScoreboard();
         e = event;
         Send.allPlayer("Type " + ChatColor.GREEN + "ready" + ChatColor.GOLD +" to ready up. Waiting for " + remaining() + " more players to ready up.");
     }

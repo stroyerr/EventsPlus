@@ -7,6 +7,7 @@ import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processe
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.EventSideBar;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.RankingScoreboard;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +22,7 @@ public class InitialiseEvent {
         Event event = new Event(arena, host, type);
         arena.active = true;
         Event.activeEvent = event;
+        Event.activeEvent.rankingScoreboard = new RankingScoreboard();
 
         if(event.type.equals("lucky_blocks")){
 

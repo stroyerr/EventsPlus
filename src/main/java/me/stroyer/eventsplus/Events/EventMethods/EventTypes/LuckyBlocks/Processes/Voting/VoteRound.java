@@ -110,6 +110,7 @@ public class VoteRound {
     }
 
     public static void cancelVoteTimer(){
+        Bukkit.getLogger().info("vote cancel called");
         if(voteTimer != null){
             voteTimer.cancel();
         }
@@ -122,6 +123,7 @@ public class VoteRound {
         if(Event.activeEvent == null){
             return;
         }
+
         voteTimer.cancel();
         Bukkit.getLogger().info("vote finished");
         mostPopularArena = null;
@@ -138,6 +140,7 @@ public class VoteRound {
                 }
             }
         }
+        LuckyBlockEvent.endRound();
 
         if(mostPopularArena == null){
             Random random = new Random();
