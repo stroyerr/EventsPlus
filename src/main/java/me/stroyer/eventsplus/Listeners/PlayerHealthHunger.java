@@ -1,5 +1,6 @@
 package me.stroyer.eventsplus.Listeners;
 
+import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,9 @@ public class PlayerHealthHunger  implements Listener {
     @EventHandler
     public static void onDamage(EntityDamageEvent e){
         if (e.getEntity() instanceof Player){
+            if(CloseEvent.invincible){
+                e.setCancelled(true);
+            }
             if(Event.activeEvent == null){
                 return;
             }

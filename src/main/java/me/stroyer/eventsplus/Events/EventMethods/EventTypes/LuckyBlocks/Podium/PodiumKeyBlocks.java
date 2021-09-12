@@ -111,11 +111,11 @@ public class PodiumKeyBlocks {
 
     public void tpTopPlayers() {
         List<PlayerScore> playerScores = Event.activeEvent.rankingScoreboard.playerScorelist;
-        Player first = Bukkit.getPlayer(Event.activeEvent.rankingScoreboard.firstScoreName);
-        first.teleport(this.first.getLocation());
-        Player second = Bukkit.getPlayer(Event.activeEvent.rankingScoreboard.secondScoreName);
-        second.teleport(this.second.getLocation());
         Player third = Bukkit.getPlayer(Event.activeEvent.rankingScoreboard.thirdScoreName);
         third.teleport(this.third.getLocation());
+        Player second = Bukkit.getPlayer(Event.activeEvent.rankingScoreboard.secondScoreName);
+        second.teleport(this.second.getLocation());
+        Player first = Bukkit.getPlayer(Event.activeEvent.rankingScoreboard.firstScoreName);
+        first.teleport(this.first.getLocation());
     }
 }

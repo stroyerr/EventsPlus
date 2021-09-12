@@ -9,14 +9,20 @@ import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processe
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockLocations;
 import me.stroyer.eventsplus.Events.GUIs.SelectEventType;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.List;
 
 public class CloseEvent {
+
+    public static boolean invincible;
+
     public static void close(Event event){
+//        PlayerLostItem.notifyStaff();
         if(event.type.equalsIgnoreCase("lucky_blocks")){
             LuckyBlockLocations.clearLocations();
             LuckyBlockLocations.repairSpawnBlock();
@@ -48,5 +54,22 @@ public class CloseEvent {
         SelectEventType.alreadyCalled = false;
         PlayerScore.clearPlayerScoreList();
         PodiumRoundHandler.end();
+        PlayerLostItem.lostPlayerItemObjects.clear();
+
+        invincible = true;
+        BukkitRunnable fiveSecondTimer = new BukkitRunnable() {
+            int i = 0;
+            @Override
+            public void run() {
+                if(i < 5){
+                    i++;
+                }else{
+                    invincible = true;
+                    this.cancel();
+                }
+            }
+        };
+
+        fiveSecondTimer.runTask(Bukkit.getPluginManager().getPlugin("EventsPlus"));
     }
 }

@@ -23,6 +23,9 @@ public class InitialiseEvent {
         arena.active = true;
         Event.activeEvent = event;
         Event.activeEvent.rankingScoreboard = new RankingScoreboard();
+        for(int i = 0; i < Event.activeEvent.members.size(); i++){
+            PlayerLostItem.lostPlayerItemObjects.add(new PlayerLostItem(Event.activeEvent.members.get(i)));
+        }
 
         if(event.type.equals("lucky_blocks")){
 

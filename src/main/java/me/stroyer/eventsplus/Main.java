@@ -17,14 +17,36 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
+
+    public static int versionInt;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
 
-        //Bukkit.getServer().getPluginManager().getPlugin("EventsPlus").saveDefaultConfig();
+        Logger logger = this.getLogger();
+
+        new UpdateChecker(this, 96159).getVersion(version -> {
+            double latestOnlineVersion;
+            double currentVersionRun;
+            latestOnlineVersion = Double.parseDouble(version);
+            currentVersionRun = Double.parseDouble(this.getDescription().getVersion());
+            if (latestOnlineVersion == currentVersionRun) {
+                logger.info("There is not a new update available.");
+                versionInt = 0;
+            } else if (latestOnlineVersion > currentVersionRun){
+                logger.info("There is a new update available.");
+                versionInt = -1;
+            } else if (latestOnlineVersion < currentVersionRun){
+                logger.info("You are running a dev version of EventsPlus");
+                versionInt = 1;
+            }
+        });
+
+//        Bukkit.getServer().getPluginManager().getPlugin("EventsPlus").saveDefaultConfig();
         getCommand("EventsPlus").setExecutor(new EventsPlus(this));
         getCommand("EventsPlus").setTabCompleter(new TabCompleter());
         getServer().getPluginManager().registerEvents(new SelectionWand(), this);
@@ -34,6 +56,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerMovementEvent(), this);
         getServer().getPluginManager().registerEvents(new ArenaActiveBlockInteraction(), this);
         getServer().getPluginManager().registerEvents(new PlayerHealthHunger(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 
         File f = new File("./plugins/EventsPlus/arenas.eventsplus");
         try{

@@ -2,6 +2,7 @@ package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Process
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.ReturnBlockRound;
+import me.stroyer.eventsplus.Events.EventMethods.PlayerLostItem;
 import me.stroyer.eventsplus.Events.EventMethods.RandomBlock;
 import me.stroyer.eventsplus.Methods.PlaySound;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
@@ -81,6 +82,7 @@ public static void updateInventory(){
         BuildBlocks.build(roundStack);
 
         for(int i = 0; i < e.members.size(); i ++){
+            PlayerLostItem.getPlayerLostItemObjectByPlayer(e.members.get(i)).addLostItem(e.members.get(i).getInventory().getItem(8));
             e.members.get(i).getInventory().setItem(8, roundStack);
             e.members.get(i).getInventory().setHeldItemSlot(8);
             e.members.get(i).getInventory().close();

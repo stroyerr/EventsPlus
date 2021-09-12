@@ -20,8 +20,26 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium;
+package me.stroyer.eventsplus.Listeners;
 
-public class PodiumSideBar {
+import me.stroyer.eventsplus.Main;
+import me.stroyer.eventsplus.PlayerInteraction.Send;
+import org.bukkit.ChatColor;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
+public class PlayerJoin implements Listener {
+    @EventHandler
+    public static void onPlayerJoin(PlayerJoinEvent e){
+        if(e.getPlayer().hasPermission("eventsplus.staff")){
+            if(Main.versionInt == 0){
+                Send.player(e.getPlayer(), ChatColor.GREEN  + "Stroyer_'s EventsPlus is up to date.");
+            }else if(Main.versionInt == -1){
+                Send.player(e.getPlayer(), ChatColor.RED  + "Stroyer_'s EventsPlus is not up to date. Please update as this version may contain bugs and glitches! " + ChatColor.GOLD + "https://www.spigotmc.org/resources/eventsplus.96159/");
+            }else if(Main.versionInt == 1){
+                Send.player(e.getPlayer(),ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "You are running a dev build of Stroyer_'s EventsPlus. This build contains features not yet finalised and may contain bugs.");
+            }
+        }
+    }
 }

@@ -8,6 +8,7 @@ import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
 import me.stroyer.eventsplus.Events.GUIs.StartGUI;
 import me.stroyer.eventsplus.Main;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -32,7 +33,8 @@ public class EventsPlus implements CommandExecutor {
             "listarenas",
             "license",
             "tp",
-            "podium"
+            "podium",
+            "version"
     };
 
     public static String[] arenaCommands = {
@@ -65,6 +67,11 @@ public class EventsPlus implements CommandExecutor {
         }
 
         if(args.length > 0){
+
+            if(args[0].equalsIgnoreCase("version")){
+                Send.player(p, "Currently running version " + Bukkit.getPluginManager().getPlugin("EventsPlus").getDescription().getVersion() + ".");
+                return true;
+            }
 
             if(args[0].equalsIgnoreCase("license")){
 
@@ -149,6 +156,7 @@ public class EventsPlus implements CommandExecutor {
                 msg.add("/ep start" + ChatColor.GREEN + " Start an event as host. Must have eventsplus.host permission node to host an event.");
                 msg.add("/ep delete" + ChatColor.GREEN + " Delete an event.");
                 msg.add("/ep license " + ChatColor.GREEN + "Get the license for EventsPlus");
+                msg.add("/ep version " + ChatColor.GREEN + "Current version being run");
                 Send.playerMultipleLines(p, msg, "Admin Commands");
                 return true;
             }

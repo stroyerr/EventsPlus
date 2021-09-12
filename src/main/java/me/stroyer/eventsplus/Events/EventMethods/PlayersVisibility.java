@@ -78,6 +78,7 @@ public class PlayersVisibility {
     public static void giveAllToggleItem(){
         for(int i = 0; i < Event.activeEvent.members.size(); i++){
             Player p = Event.activeEvent.members.get(i);
+            PlayerLostItem.getPlayerLostItemObjectByPlayer(p).addLostItem(p.getInventory().getItem(4));
             p.getInventory().setItem(4, getToggleItem());
         }
     }
