@@ -42,7 +42,7 @@ public class VoteRound {
 
     public static void openGUI(Player p){
         arenaItems = new ArrayList<ArenaSelectionItem>();
-        inv = Bukkit.createInventory(null, 36, ChatColor.DARK_RED + "Vote on round " + (Event.activeEvent.round) + " arena!");
+        inv = Bukkit.createInventory(null, 36, ChatColor.DARK_RED + "Vote on round " + (Event.activeEvent.round + 1) + " arena!");
         for(int i = 0; i < Arenas.arenas.size(); i ++){
             arenaItems.add(new ArenaSelectionItem(Arenas.arenas.get(i)));
             inv.setItem(i, arenaItems.get(i).guiItem);
@@ -110,7 +110,6 @@ public class VoteRound {
     }
 
     public static void cancelVoteTimer(){
-        Bukkit.getLogger().info("vote cancel called");
         if(voteTimer != null){
             voteTimer.cancel();
         }
@@ -125,7 +124,6 @@ public class VoteRound {
         }
 
         voteTimer.cancel();
-        Bukkit.getLogger().info("vote finished");
         mostPopularArena = null;
         votesOf = 0;
         for(int i = 0; i < Arenas.arenas.size(); i ++){

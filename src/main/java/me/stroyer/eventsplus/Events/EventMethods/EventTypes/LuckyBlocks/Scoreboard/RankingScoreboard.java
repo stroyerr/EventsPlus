@@ -44,7 +44,7 @@ public class RankingScoreboard {
     private ScoreboardManager sbm;
     private Scoreboard sb;
     private Objective objective;
-    private List<PlayerScore> playerScorelist = new ArrayList<PlayerScore>();
+    public List<PlayerScore> playerScorelist = new ArrayList<PlayerScore>();
 
     public RankingScoreboard(){
         this.updatePlayerList();
@@ -72,9 +72,9 @@ public class RankingScoreboard {
         }
     }
 
-    private String firstScoreName = "";
-    private String secondScoreName = "";
-    private String thirdScoreName = "";
+    public String firstScoreName = "";
+    public String secondScoreName = "";
+    public String thirdScoreName = "";
     private int firstScore = 0;
     private int secondScore = 0;
     private int thirdScore = 0;

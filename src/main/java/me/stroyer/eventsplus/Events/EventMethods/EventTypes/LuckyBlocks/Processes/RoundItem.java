@@ -48,7 +48,6 @@ public class RoundItem {
                 }
                 else{
                     startItemPicked(1);
-                    Bukkit.getLogger().info("1");
                     this.cancel();
                 }
             }
@@ -72,16 +71,13 @@ public static void updateInventory(){
 
     public static void startItemPicked(int round) {
         itemPicked(round);
-        Bukkit.getLogger().info("2");
         br.cancel();
     }
 
     public static void itemPicked(int round){
 
-        Bukkit.getLogger().info("3");
-
         ItemStack roundItem = roundStack;
-        roundStack = NewItem.createGuiItem(roundStack.getType(), ChatColor.AQUA + "Round " + round + " Item", ChatColor.GOLD + "Mine this item!");
+        roundStack = NewItem.createGuiItem(roundStack.getType(), ChatColor.AQUA + "Round " + Event.activeEvent.round + " Item", ChatColor.GOLD + "Mine this item!");
         BuildBlocks.build(roundStack);
 
         for(int i = 0; i < e.members.size(); i ++){

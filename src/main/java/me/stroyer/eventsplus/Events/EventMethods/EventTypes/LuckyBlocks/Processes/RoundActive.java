@@ -4,6 +4,7 @@ import me.stroyer.eventsplus.Events.EventMethods.Countdown;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerPerformer;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerScore.PlayerScore;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.PodiumRoundHandler;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Scoreboard.RankingScoreboard;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.SetMovementSpeed;
@@ -85,9 +86,17 @@ public class RoundActive {
         if(showPerformersAlready){
             return;
         }
-        TopPerformers.display(performers);
         RoundTimer.cancelTimer();
         Event.activeEvent.inRound = false;
+        if(Event.activeEvent.round == 5){
+            performers.clear();
+            PodiumRoundHandler.initialise();
+            showPerformersAlready = true;
+            LuckyBlockEvent.endRound();
+            VoteRound.cancelVoteTimer();
+            return;
+        }
+        TopPerformers.display(performers);
         VoteRound.startVoteTimer();
         performers.clear();
         showPerformersAlready = true;

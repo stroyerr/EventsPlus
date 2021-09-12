@@ -1,6 +1,7 @@
 package me.stroyer.eventsplus.Listeners;
 
 import me.stroyer.eventsplus.Arena.CreateArena.CreateArena;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.PodiumSelection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +15,7 @@ public class SelectionWand implements Listener {
     @EventHandler
     public static void onClick(PlayerInteractEvent e){
 
-        if(!e.getPlayer().getInventory().getItemInMainHand().equals(CreateArena.getWand())){
+        if(!e.getPlayer().getInventory().getItemInMainHand().equals(CreateArena.getWand()) && !e.getPlayer().getInventory().getItemInMainHand().equals(PodiumSelection.selectionWand)){
             return;
         }
 
@@ -22,12 +23,20 @@ public class SelectionWand implements Listener {
 
         if(e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
             e.setCancelled(true);
+            if(e.getPlayer().getInventory().getItemInMainHand().equals(PodiumSelection.selectionWand)){
+                PodiumSelection.playerClickEvent(e);
+                return;
+            }
             CreateArena.setPos1(p, e.getClickedBlock());
             return;
         }
 
         if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
             e.setCancelled(true);
+            if(e.getPlayer().getInventory().getItemInMainHand().equals(PodiumSelection.selectionWand)){
+                PodiumSelection.playerClickEvent(e);
+                return;
+            }
             CreateArena.setPos2(p, e.getClickedBlock());
             return;
         }

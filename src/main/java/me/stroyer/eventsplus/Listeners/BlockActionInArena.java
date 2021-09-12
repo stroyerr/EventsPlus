@@ -3,6 +3,7 @@ package me.stroyer.eventsplus.Listeners;
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Arena.Arenas;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.Podium;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +17,11 @@ import java.util.List;
 public class BlockActionInArena implements Listener {
     @EventHandler
     public static void blockBreakEvent(BlockBreakEvent e){
+
+        if(Podium.podium.locations.contains(e.getBlock().getLocation()) && !e.getPlayer().hasPermission("eventsplus.bypass")){
+            e.setCancelled(true);
+            Send.player(e.getPlayer(), ChatColor.RED + "You cannot modify a podium.");
+        }
 
         List<Arena> arenas = Arenas.arenas;
         for(int i = 0; i < arenas.size(); i ++){
@@ -42,9 +48,15 @@ public class BlockActionInArena implements Listener {
 
     @EventHandler
     public static void blockPlaceEvent(BlockPlaceEvent e){
+        if(Podium.podium.locations.contains(e.getBlock().getLocation())){
+            e.setCancelled(true);
+            Send.player(e.getPlayer(), ChatColor.RED + "You cannot modify a podium.");
+        }
+
         if(Event.activeEvent == null){
             return;
         }
+
         if(Event.activeEvent.activeEventBlocks != null){
             Bukkit.getLogger().info("1");
             if(Event.activeEvent.activeEventBlocks.contains(e.getBlock())){

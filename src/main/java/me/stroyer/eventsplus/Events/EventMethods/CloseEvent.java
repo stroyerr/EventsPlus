@@ -4,6 +4,7 @@ import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.PlayerEventPreLocation;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.PlayerScore.PlayerScore;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.PodiumRoundHandler;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockLocations;
 import me.stroyer.eventsplus.Events.GUIs.SelectEventType;
@@ -46,7 +47,6 @@ public class CloseEvent {
 
         SelectEventType.alreadyCalled = false;
         PlayerScore.clearPlayerScoreList();
-
-
+        PodiumRoundHandler.end();
     }
 }

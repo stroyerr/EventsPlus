@@ -6,6 +6,7 @@ import me.stroyer.eventsplus.Commands.EventsPlus;
 import me.stroyer.eventsplus.Commands.TabCompleter;
 import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.Podium;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.Listeners.*;
 import org.bukkit.Bukkit;
@@ -49,6 +50,7 @@ public final class Main extends JavaPlugin {
 
         try {
             StorageManager.load();
+            Podium.attemptLoadLocal();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -63,6 +65,7 @@ public final class Main extends JavaPlugin {
 
         try {
             StorageManager.save();
+            Podium.attemptSaveLocal();
         } catch (IOException e) {
             e.printStackTrace();
         }

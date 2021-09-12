@@ -3,6 +3,7 @@ package me.stroyer.eventsplus.Commands;
 import jdk.jfr.Event;
 import me.stroyer.eventsplus.Arena.Arenas;
 import me.stroyer.eventsplus.Arena.CreateArena.CreateArena;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.PodiumSelection;
 import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
 import me.stroyer.eventsplus.Events.GUIs.StartGUI;
 import me.stroyer.eventsplus.Main;
@@ -30,10 +31,16 @@ public class EventsPlus implements CommandExecutor {
             "stop",
             "listarenas",
             "license",
-            "tp"
+            "tp",
+            "podium"
     };
 
     public static String[] arenaCommands = {
+            "create",
+            "save"
+    };
+
+    public static String[] podiumCommands = {
             "create",
             "save"
     };
@@ -144,6 +151,24 @@ public class EventsPlus implements CommandExecutor {
                 msg.add("/ep license " + ChatColor.GREEN + "Get the license for EventsPlus");
                 Send.playerMultipleLines(p, msg, "Admin Commands");
                 return true;
+            }
+
+            if(args[0].equalsIgnoreCase("podium")){
+                if(args.length > 1){
+                    if(args[1].equalsIgnoreCase("create")){
+                        PodiumSelection.giveSelectionWant(p);
+                        return true;
+                    }else if(args[1].equalsIgnoreCase("save")){
+                        PodiumSelection.createPodium(p);
+                        return true;
+                    }else{
+                        Send.player(p, ChatColor.RED + "Unkown command.");
+                        return true;
+                    }
+                }else{
+                    Send.player(p, ChatColor.RED + "Incorrect syntax.");
+                    return true;
+                }
             }
 
             if(args[0].equalsIgnoreCase("start")){

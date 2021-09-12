@@ -51,17 +51,23 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
             if (args.length == 2) {
 
-                if(!args[0].equalsIgnoreCase("arena")){
-                    return autoCompletes;
-                }
-
-                for (int i = 0; i < EventsPlus.arenaCommands.length; i++) {
+                if(args[0].equalsIgnoreCase("arena")){
+                    for (int i = 0; i < EventsPlus.arenaCommands.length; i++) {
 
                     autoCompletes.add(EventsPlus.arenaCommands[i]);
 
                 }
 
-                return autoCompletes;
+                    if(args[0].equalsIgnoreCase("podium")){
+                        for(int i = 0; i < EventsPlus.podiumCommands.length; i++){
+                            autoCompletes.add(EventsPlus.podiumCommands[i]);
+                        }
+                    }
+
+                    return autoCompletes;
+
+                }
+
 
             }
 
