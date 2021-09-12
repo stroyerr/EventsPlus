@@ -1,4 +1,7 @@
 # EventsPlus
+
+Latest Stable Release:
+https://www.spigotmc.org/resources/eventsplus.96159/
  
 The EventPlus Project is licensed under the MIT Open Source License.
  
