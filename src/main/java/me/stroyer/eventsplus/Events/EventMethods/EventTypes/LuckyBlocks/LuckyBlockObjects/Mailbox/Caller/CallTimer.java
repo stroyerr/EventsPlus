@@ -28,35 +28,35 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CallTimer {
+
+
     public static BukkitRunnable twoMinuteTimer = new BukkitRunnable() {
         @Override
         public void run() {
-            messagePlayers.runTaskLater(Bukkit.getPluginManager().getPlugin("EventsPlus"), 2400L);
-            this.cancel();
-        }
-    };
-
-    public static BukkitRunnable messagePlayers = new BukkitRunnable() {
-        @Override
-        public void run() {
-            List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
-            for(int i = 0; i < onlinePlayers.size(); i++){
-                if(!Mailbox.getMailboxByPlayer(onlinePlayers.get(i)).isEmpty()){
-                    Send.player(onlinePlayers.get(i), ChatColor.RED + "You currently have items waiting in your " + ChatColor.YELLOW + "/mailbox" + ChatColor.RED + "... claim these items soon or they may be gone forever!");
-                }
-            }
-            twoMinuteTimer.runTaskLaterAsynchronously(Bukkit.getPluginManager().getPlugin("EventsPlus"), 2400L);
-            this.cancel();
+       //     call.runTask(Bukkit.getPluginManager().getPlugin("EventsPlus"));
         }
     };
 
     public static void initiate(){
-        twoMinuteTimer.runTaskTimerAsynchronously(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L, 2400L);
+        BukkitRunnable br = new BukkitRunnable(){
+            @Override
+            public void run(){
+                List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
+                for(int i = 0; i < onlinePlayers.size(); i++){
+                    if(!Mailbox.getMailboxByPlayer(onlinePlayers.get(i)).isEmpty()){
+                        Send.player(onlinePlayers.get(i), ChatColor.RED + "You currently have items waiting in your " + ChatColor.YELLOW + "/mailbox" + ChatColor.RED + "... claim these items soon or they may be gone forever! If you fail to retrieve these items before they're gone, you may not be able to get them back.");
+                    }
+                }
+            }
+        };
+
+        br.runTaskTimerAsynchronously(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L, 1200L);
     }
 
     public static void cancel(){

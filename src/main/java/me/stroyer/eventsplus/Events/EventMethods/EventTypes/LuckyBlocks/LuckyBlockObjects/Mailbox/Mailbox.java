@@ -23,8 +23,10 @@
 package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox;
 
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import me.stroyer.eventsplus.UI.Methods.NewItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -47,11 +49,13 @@ public class Mailbox {
     public Mailbox(Player player){
         this.ownerUUID = player.getUniqueId();
         this.inventory = Bukkit.createInventory(null, 54, "Mailbox");
+        this.inventory.setItem(54, getDeleteItem());
     }
 
     public Mailbox(UUID playerUUID, List<ItemStack> items){
         this.ownerUUID = playerUUID;
         this.inventory = Bukkit.createInventory(null, 54, "Mailbox");
+        this.inventory.setItem(53, getDeleteItem());
         for(int i = 0; i < items.size(); i++){
             this.inventory.addItem(items.get(i));
         }
@@ -64,6 +68,15 @@ public class Mailbox {
             }
         }
         return true;
+    }
+
+    public void clear(){
+        this.inventory.clear();
+        this.inventory.setItem(54, getDeleteItem());
+    }
+
+    public static ItemStack getDeleteItem(){
+        return NewItem.createGuiItem(Material.LAVA_BUCKET, ChatColor.DARK_RED + "Delete all", ChatColor.RED + "Permanently removes all items in your mailbox.");
     }
 
     public void addItem(ItemStack itemStack){

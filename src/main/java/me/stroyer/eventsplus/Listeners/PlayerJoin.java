@@ -39,11 +39,11 @@ public class PlayerJoin implements Listener {
 
         if(e.getPlayer().hasPermission("eventsplus.staff")){
             if(Main.versionInt == 0){
-                Send.player(e.getPlayer(), ChatColor.GREEN  + "Stroyer_'s EventsPlus is up to date.");
+                Send.player(e.getPlayer(), ChatColor.GREEN  + "Stroyer_'s EventsPlus is up to date. If you wish to use unreleased features, update to a dev version at " + ChatColor.GOLD + "https://github.com/stroyerr/EventsPlus/releases");
             }else if(Main.versionInt == -1){
                 Send.player(e.getPlayer(), ChatColor.RED  + "Stroyer_'s EventsPlus is not up to date. Please update as this version may contain bugs and glitches! " + ChatColor.GOLD + "https://www.spigotmc.org/resources/eventsplus.96159/");
             }else if(Main.versionInt == 1){
-                Send.player(e.getPlayer(),ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "You are running a dev build of Stroyer_'s EventsPlus. This build contains features not yet finalised and may contain bugs.");
+                Send.player(e.getPlayer(),ChatColor.LIGHT_PURPLE + "You are running a dev build of Stroyer_'s EventsPlus. This build contains new unreleased features but has a higher chance of containing bugs.");
             }
         }
     }

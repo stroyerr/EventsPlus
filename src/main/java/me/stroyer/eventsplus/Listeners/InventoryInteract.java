@@ -1,6 +1,7 @@
 package me.stroyer.eventsplus.Listeners;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.StaffController;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.Mailbox;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.RoundItem;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.TopPerformers;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Voting.VoteRound;
@@ -25,6 +26,11 @@ public class InventoryInteract implements Listener {
         if(e.getInventory().equals(DeleteUI.inv)){
             e.setCancelled(true);
             DeleteUI.InventoryEvent(e);
+        }
+
+        if(e.getCurrentItem().equals(Mailbox.getDeleteItem())){
+            Mailbox.getMailboxByPlayer((Player) e.getWhoClicked()).clear();
+            e.setCancelled(true);
         }
 
         if(e.getInventory().equals(StartGUI.inv)){
