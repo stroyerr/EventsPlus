@@ -23,6 +23,7 @@
 package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
@@ -40,16 +41,49 @@ public class SerializableMailbox implements Serializable {
         List<Map<String, Object>> serializedObjects = new ArrayList<>();
 
         this.playerUUID = mailbox.ownerUUID;
-        for(int i = 0; i < mailbox.inventory.getSize(); i++){
-            if(mailbox.inventory.getItem(i) != null){
-                if(mailbox.inventory.getItem(i).serialize() == null){
-                }else{
-                    serializedObjects.add(mailbox.inventory.getItem(i).serialize());
-                }
+        for(int i = 0; i < mailbox.inventory.getSize(); i++) {
+            try {
+                checkSerializable(mailbox.inventory.getItem(i));
+                serializedObjects.add(mailbox.inventory.getItem(i).serialize());
+            } catch (NotSerializableException e) {
+                Bukkit.getLogger().info("Failed to save an unserializable itemstack.");
+                continue;
+            } catch (NullPointerException e) {
+                Bukkit.getLogger().info("Failed to save (nullpointer exception). This shouldn't be an issue,");
+            } catch (IOException e){
+                continue;
+            } catch (Exception e){
+                continue;
             }
+            //if(mailbox.inventory.getItem(i) != null){
+//                try{
+//                    checkSerializable(mailbox.inventory.getItem(i));
+//                    serializedObjects.add(mailbox.inventory.getItem(i).serialize());
+//                }catch (NotSerializableException e){
+//                    Bukkit.getLogger().info("Failed to save an unserializable itemstack.");
+//                    continue;
+//                } catch (RuntimeException e){
+//
+//                } catch (Exception e) {
+//                    Bukkit.getLogger().info("Point 2");
+//                } finally{
+//                    Bukkit.getLogger().info("Failed to save a single itemstack.");
+//                    continue;
+//                }
+            //}
         }
 
         this.serializableMailboxItemsList = serializedObjects;
+    }
+
+    public static void checkSerializable(ItemStack is) throws NotSerializableException, NullPointerException {
+//        try{
+        if(is != null){
+            is.serialize();
+        }
+//        }catch(IOException e){
+//
+//        }
     }
 
     public static List<SerializableMailbox> getSerializedMailboxes(){

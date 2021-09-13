@@ -49,7 +49,7 @@ public class Mailbox {
     public Mailbox(Player player){
         this.ownerUUID = player.getUniqueId();
         this.inventory = Bukkit.createInventory(null, 54, "Mailbox");
-        this.inventory.setItem(54, getDeleteItem());
+        this.inventory.setItem(53, getDeleteItem());
     }
 
     public Mailbox(UUID playerUUID, List<ItemStack> items){
@@ -82,7 +82,7 @@ public class Mailbox {
     public void addItem(ItemStack itemStack){
         if(this != null){
             this.inventory.addItem(itemStack);
-            Send.player(Bukkit.getPlayer(this.ownerUUID), ChatColor.GREEN + "Your " + itemStack.displayName() + " was relocated to your mailbox. Access it after the event with /mailbox");
+            Send.player(Bukkit.getPlayer(this.ownerUUID), ChatColor.GREEN + "Your " + itemStack.getType().name() + " was relocated to your mailbox. Access it after the event with /mailbox");
         }else{
             Send.player(Bukkit.getPlayer(this.ownerUUID), ChatColor.RED + "Your item was not safely moved. Please refer this error to your server administrator.");
         }

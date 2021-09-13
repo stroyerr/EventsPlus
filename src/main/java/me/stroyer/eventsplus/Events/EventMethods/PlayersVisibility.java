@@ -23,6 +23,7 @@
 package me.stroyer.eventsplus.Events.EventMethods;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.Mailbox;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import me.stroyer.eventsplus.UI.Methods.NewItem;
 import org.bukkit.ChatColor;
@@ -78,6 +79,9 @@ public class PlayersVisibility {
     public static void giveAllToggleItem(){
         for(int i = 0; i < Event.activeEvent.members.size(); i++){
             Player p = Event.activeEvent.members.get(i);
+            if(p.getInventory().getItem(4) != null){
+                Mailbox.getMailboxByPlayer(p).addItem(p.getInventory().getItem(4));
+            }
             PlayerLostItem.getPlayerLostItemObjectByPlayer(p).addLostItem(p.getInventory().getItem(4));
             p.getInventory().setItem(4, getToggleItem());
         }

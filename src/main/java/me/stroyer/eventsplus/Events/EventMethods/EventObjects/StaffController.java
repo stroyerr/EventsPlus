@@ -1,6 +1,7 @@
 package me.stroyer.eventsplus.Events.EventMethods.EventObjects;
 
 import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.Mailbox;
 import me.stroyer.eventsplus.Methods.StaffOnline;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import me.stroyer.eventsplus.UI.Methods.FillBlank;
@@ -92,6 +93,9 @@ public class StaffController {
     public static void giveStaff(){
         List<Player> staff = StaffOnline.get();
         for(int i = 0; i < staff.size(); i ++){
+            if(staff.get(i).getInventory().getItem(0) != null){
+                Mailbox.getMailboxByPlayer(staff.get(i)).addItem(staff.get(i).getInventory().getItem(0));
+            }
             staff.get(i).getInventory().setItem(0, getStaffItem());
         }
     }

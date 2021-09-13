@@ -43,8 +43,10 @@ public class CallTimer {
         }
     };
 
+    private static BukkitRunnable br;
+
     public static void initiate(){
-        BukkitRunnable br = new BukkitRunnable(){
+        br = new BukkitRunnable(){
             @Override
             public void run(){
                 List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
@@ -60,6 +62,6 @@ public class CallTimer {
     }
 
     public static void cancel(){
-            twoMinuteTimer.cancel();
+            br.cancel();
         }
     }
