@@ -7,6 +7,7 @@ import me.stroyer.eventsplus.Commands.MailboxCommand;
 import me.stroyer.eventsplus.Commands.TabCompleter;
 import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.Caller.CallTimer;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.SerializableMailbox;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.Podium;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
@@ -62,6 +63,8 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerHealthHunger(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 
+        CallTimer.initiate();
+
         File f = new File("./plugins/EventsPlus/arenas.eventsplus");
         File f2 = new File("./plugins/EventsPlus/mailboxData.eventsplus");
         try{
@@ -93,6 +96,8 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+
+        CallTimer.cancel();
 
         try {
             StorageManager.save();

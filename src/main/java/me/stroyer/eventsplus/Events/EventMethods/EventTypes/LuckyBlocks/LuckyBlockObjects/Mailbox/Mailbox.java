@@ -57,6 +57,15 @@ public class Mailbox {
         }
     }
 
+    public Boolean isEmpty(){
+        for(int i = 0; i < this.inventory.getSize(); i++){
+            if(this.inventory.getItem(i) != null){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void addItem(ItemStack itemStack){
         if(this != null){
             this.inventory.addItem(itemStack);

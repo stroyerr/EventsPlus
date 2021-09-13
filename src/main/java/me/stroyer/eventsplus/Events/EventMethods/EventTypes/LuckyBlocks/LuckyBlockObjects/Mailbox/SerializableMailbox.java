@@ -42,7 +42,10 @@ public class SerializableMailbox implements Serializable {
         this.playerUUID = mailbox.ownerUUID;
         for(int i = 0; i < mailbox.inventory.getSize(); i++){
             if(mailbox.inventory.getItem(i) != null){
-                serializedObjects.add(mailbox.inventory.getItem(i).serialize());
+                if(mailbox.inventory.getItem(i).serialize() == null){
+                }else{
+                    serializedObjects.add(mailbox.inventory.getItem(i).serialize());
+                }
             }
         }
 
