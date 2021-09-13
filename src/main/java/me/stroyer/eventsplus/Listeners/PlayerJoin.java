@@ -22,6 +22,7 @@
 
 package me.stroyer.eventsplus.Listeners;
 
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.Mailbox;
 import me.stroyer.eventsplus.Main;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.ChatColor;
@@ -32,6 +33,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerJoin implements Listener {
     @EventHandler
     public static void onPlayerJoin(PlayerJoinEvent e){
+
+        if(Mailbox.playerMailboxExists(e.getPlayer())){
+            return;
+        }else{
+            Mailbox.addNewMailbox(new Mailbox(e.getPlayer()));
+        }
+
         if(e.getPlayer().hasPermission("eventsplus.staff")){
             if(Main.versionInt == 0){
                 Send.player(e.getPlayer(), ChatColor.GREEN  + "Stroyer_'s EventsPlus is up to date.");

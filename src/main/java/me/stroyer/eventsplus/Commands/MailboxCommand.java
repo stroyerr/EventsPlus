@@ -20,26 +20,30 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.Mailbox;
+package me.stroyer.eventsplus.Commands;
 
-import java.io.*;
-import java.util.List;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.Mailbox;
+import me.stroyer.eventsplus.Main;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-public class MailboxStorage {
+public class MailboxCommand implements CommandExecutor {
 
-    /*
-    This class is called in the onEnabled() and onDisabled() methods in the Main class. It updates and saves
-    the active mailbox list in the Mailbox class.
-     */
+    private static Main main;
+    public MailboxCommand(Main main){this.main = main;}
 
-    public static void saveMailboxes() throws IOException {
-        List<Mailbox> activeMailboxes = Mailbox.savedMailedBoxes();
-
-        File file = new File("./plugins/EventsPlus/mailboxes.eventsplus");
-        file.createNewFile();
-
-        FileOutputStream fOut = new FileOutputStream("./plugins/EventsPlus/mailboxes.eventsplus");
-        ObjectOutputStream oOut = new ObjectOutputStream(fOut);
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if(sender instanceof Player){
+            Player p = (Player) sender;
+            Mailbox mb = Mailbox.getMailboxByPlayer(p);
+            mb.openInventory();
+        }else{
+            return true;
+        }
+        return true;
     }
-
 }

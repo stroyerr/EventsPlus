@@ -3,9 +3,11 @@ package me.stroyer.eventsplus;
 import me.stroyer.eventsplus.Arena.Arena;
 import me.stroyer.eventsplus.Arena.ArenaStorage.StorageManager;
 import me.stroyer.eventsplus.Commands.EventsPlus;
+import me.stroyer.eventsplus.Commands.MailboxCommand;
 import me.stroyer.eventsplus.Commands.TabCompleter;
 import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
+import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.SerializableMailbox;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.Podium;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.Listeners.*;
@@ -48,6 +50,7 @@ public final class Main extends JavaPlugin {
 
 //        Bukkit.getServer().getPluginManager().getPlugin("EventsPlus").saveDefaultConfig();
         getCommand("EventsPlus").setExecutor(new EventsPlus(this));
+        getCommand("Mailbox").setExecutor(new MailboxCommand(this));
         getCommand("EventsPlus").setTabCompleter(new TabCompleter());
         getServer().getPluginManager().registerEvents(new SelectionWand(), this);
         getServer().getPluginManager().registerEvents(new BlockActionInArena(), this);
@@ -74,6 +77,7 @@ public final class Main extends JavaPlugin {
         try {
             StorageManager.load();
             Podium.attemptLoadLocal();
+            SerializableMailbox.loadMailboxes();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -89,6 +93,7 @@ public final class Main extends JavaPlugin {
         try {
             StorageManager.save();
             Podium.attemptSaveLocal();
+            SerializableMailbox.saveMailboxes();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -9,3 +9,7 @@ commands:
     aliases: [ep, eps, events, event, eplus, eventp]
     usage: /<command>
     description: General command for EventsPlus
+  Mailbox:
+    aliases: [mb, mbox, mailb]
+    usage: /<command>
+    description: Retrieve lost items from events.

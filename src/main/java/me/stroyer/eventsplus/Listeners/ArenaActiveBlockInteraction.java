@@ -16,6 +16,8 @@ public class ArenaActiveBlockInteraction implements Listener {
             return;
         }
 
+        if(!e.getPlayer().getWorld().equals(Event.activeEvent.arena.locations.get(0).location.getWorld())){return;}
+
         if(Event.activeEvent.inRound){
             if(e.getAction().equals(Action.LEFT_CLICK_BLOCK) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
                 if(!Event.activeEvent.activeEventBlocks.contains(e.getClickedBlock())){
