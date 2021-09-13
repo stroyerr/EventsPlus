@@ -39,7 +39,7 @@ public class SerializableMailbox implements Serializable {
 
         List<Map<String, Object>> serializedObjects = new ArrayList<>();
 
-        this.playerUUID = mailbox.owner.getUniqueId();
+        this.playerUUID = mailbox.ownerUUID;
         for(int i = 0; i < mailbox.inventory.getSize(); i++){
             if(mailbox.inventory.getItem(i) != null){
                 serializedObjects.add(mailbox.inventory.getItem(i).serialize());

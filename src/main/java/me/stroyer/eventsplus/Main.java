@@ -52,6 +52,7 @@ public final class Main extends JavaPlugin {
         getCommand("EventsPlus").setExecutor(new EventsPlus(this));
         getCommand("Mailbox").setExecutor(new MailboxCommand(this));
         getCommand("EventsPlus").setTabCompleter(new TabCompleter());
+        getServer().getPluginManager().registerEvents(new PlayerConnect(), this);
         getServer().getPluginManager().registerEvents(new SelectionWand(), this);
         getServer().getPluginManager().registerEvents(new BlockActionInArena(), this);
         getServer().getPluginManager().registerEvents(new InventoryInteract(), this);
@@ -62,11 +63,14 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 
         File f = new File("./plugins/EventsPlus/arenas.eventsplus");
+        File f2 = new File("./plugins/EventsPlus/mailboxData.eventsplus");
         try{
             Path path = Paths.get("./plugins/EventsPlus");
+            Path path2 = Paths.get("./plugins/EventsPlus/mailboxData.eventsplus");
             Files.createDirectories(path);
             try {
                 f.createNewFile();
+                f2.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }

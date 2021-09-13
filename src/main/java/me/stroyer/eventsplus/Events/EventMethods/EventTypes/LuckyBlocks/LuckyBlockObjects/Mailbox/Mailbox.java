@@ -29,6 +29,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,20 +39,19 @@ public class Mailbox {
     contains the object constructor and methods.
      */
 
-    public static List<Mailbox> allPlayerMailboxes;
+    public static List<Mailbox> allPlayerMailboxes = new ArrayList<>();
 
     public Inventory inventory;
-    public Player owner;
+    public UUID ownerUUID;
 
     public Mailbox(Player player){
-        this.owner = player;
-        this.inventory = Bukkit.createInventory(this.owner, 81, this.owner.getName() + "'s mailbox");
+        this.ownerUUID = player.getUniqueId();
+        this.inventory = Bukkit.createInventory(null, 54, "Mailbox");
     }
 
     public Mailbox(UUID playerUUID, List<ItemStack> items){
-        Player player = Bukkit.getPlayer(playerUUID);
-        this.owner = player;
-        this.inventory = Bukkit.createInventory(this.owner, 81, this.owner.getName() + "'s mailbox");
+        this.ownerUUID = playerUUID;
+        this.inventory = Bukkit.createInventory(null, 54, "Mailbox");
         for(int i = 0; i < items.size(); i++){
             this.inventory.addItem(items.get(i));
         }
@@ -60,15 +60,15 @@ public class Mailbox {
     public void addItem(ItemStack itemStack){
         if(this != null){
             this.inventory.addItem(itemStack);
-            Send.player(this.owner, ChatColor.GREEN + "Your " + itemStack.displayName() + " was relocated to your mailbox. Access it after the event with /mailbox");
+            Send.player(Bukkit.getPlayer(this.ownerUUID), ChatColor.GREEN + "Your " + itemStack.displayName() + " was relocated to your mailbox. Access it after the event with /mailbox");
         }else{
-            Send.player(this.owner, ChatColor.RED + "Your item was not safely moved. Please refer this error to your server administrator.");
+            Send.player(Bukkit.getPlayer(this.ownerUUID), ChatColor.RED + "Your item was not safely moved. Please refer this error to your server administrator.");
         }
     }
 
     public static Mailbox getMailboxByPlayer(Player player){
         for(int i = 0; i < allPlayerMailboxes.size(); i++){
-            if(allPlayerMailboxes.get(i).owner.equals(player)){
+            if(allPlayerMailboxes.get(i).ownerUUID.equals(player.getUniqueId())){
                 return allPlayerMailboxes.get(i);
             }
         }
@@ -76,26 +76,30 @@ public class Mailbox {
     }
 
     public void giveItemToPlayer(ItemStack itemStack){
+
+        Player owner = Bukkit.getPlayer(this.ownerUUID);
+
         if(this.inventory.contains(itemStack)){
-            if(this.owner.getInventory().firstEmpty() != -1){
+            if(owner.getInventory().firstEmpty() != -1){
                 this.inventory.remove(itemStack);
-                this.owner.getInventory().setItem(this.owner.getInventory().firstEmpty(), itemStack);
-                Send.player(this.owner, ChatColor.GREEN + "Successfully retrieved " + itemStack.displayName() + ".");
+                owner.getInventory().setItem(owner.getInventory().firstEmpty(), itemStack);
+                Send.player(owner, ChatColor.GREEN + "Successfully retrieved " + itemStack.displayName() + ".");
             }else{
-                Send.player(this.owner, ChatColor.RED + "Your inventory is full!");
+                Send.player(owner, ChatColor.RED + "Your inventory is full!");
             }
         }else{
-            Send.player(this.owner, ChatColor.RED + "Failed to transfer your item. Please notify your server adminstrator immediately.");
+            Send.player(owner, ChatColor.RED + "Failed to transfer your item. Please notify your server adminstrator immediately.");
         }
     }
 
     public void openInventory(){
-        this.owner.openInventory(this.inventory);
+        Player owner = Bukkit.getPlayer(this.ownerUUID);
+        owner.openInventory(this.inventory);
     }
 
     public static Boolean playerMailboxExists(Player player){
         for(int i = 0; i < allPlayerMailboxes.size(); i++){
-            if(allPlayerMailboxes.get(i).owner.equals(player)) {
+            if(allPlayerMailboxes.get(i).ownerUUID.equals(player.getUniqueId())) {
                 return true;
             }
         }

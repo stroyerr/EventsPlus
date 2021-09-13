@@ -23,28 +23,21 @@
 package me.stroyer.eventsplus.Listeners;
 
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.Mailbox;
-import me.stroyer.eventsplus.Main;
-import me.stroyer.eventsplus.PlayerInteraction.Send;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class PlayerJoin implements Listener {
+public class PlayerConnect implements Listener{
     @EventHandler
-    public static void onPlayerJoin(PlayerJoinEvent e){
-
-
-        if(e.getPlayer().hasPermission("eventsplus.staff")){
-            if(Main.versionInt == 0){
-                Send.player(e.getPlayer(), ChatColor.GREEN  + "Stroyer_'s EventsPlus is up to date.");
-            }else if(Main.versionInt == -1){
-                Send.player(e.getPlayer(), ChatColor.RED  + "Stroyer_'s EventsPlus is not up to date. Please update as this version may contain bugs and glitches! " + ChatColor.GOLD + "https://www.spigotmc.org/resources/eventsplus.96159/");
-            }else if(Main.versionInt == 1){
-                Send.player(e.getPlayer(),ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "You are running a dev build of Stroyer_'s EventsPlus. This build contains features not yet finalised and may contain bugs.");
-            }
-        }
+    public static void onPlayerConnect(PlayerLoginEvent e){
+                if(Mailbox.playerMailboxExists(e.getPlayer())){
+                    Bukkit.getLogger().info("Player already has a mailbox.");
+                    return;
+                }else{
+                    Mailbox.addNewMailbox(new Mailbox(e.getPlayer()));
+                    Bukkit.getLogger().info("Player does not have a mailbox. Generating one now...");
+                }
     }
 }
