@@ -23,6 +23,9 @@ public class CloseEvent {
 
     public static void close(Event event){
 //        PlayerLostItem.notifyStaff();
+        if(event != null){
+            
+        }else{return;}
         if(event.type.equalsIgnoreCase("lucky_blocks")){
             LuckyBlockLocations.clearLocations();
             LuckyBlockLocations.repairSpawnBlock();
@@ -64,12 +67,12 @@ public class CloseEvent {
                 if(i < 5){
                     i++;
                 }else{
-                    invincible = true;
+                    invincible = false;
                     this.cancel();
                 }
             }
         };
 
-        fiveSecondTimer.runTask(Bukkit.getPluginManager().getPlugin("EventsPlus"));
+        fiveSecondTimer.runTaskTimer(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L, 20L);
     }
 }
