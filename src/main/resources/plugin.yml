@@ -13,3 +13,6 @@ commands:
     aliases: [mb, mbox, mailb]
     usage: /<command>
     description: Retrieve lost items from events.
+  ep_addvote:
+    usage: Not for player use.
+    description: Not for player use.

@@ -56,6 +56,11 @@ public class VotingEvent {
         this.host = host;
     }
 
+    public VotingEvent(){
+        this.members = PlayersVoted.playersVotedInLastDay();
+        this.eventActive = true;
+    }
+
     public static void initialise(Player host, WipeoutArena arena){
         if(!runInitialiseChecks(arena)){
             Send.player(host, ChatColor.RED + "Something went wrong, ensure you have properly configured and setup the event.");

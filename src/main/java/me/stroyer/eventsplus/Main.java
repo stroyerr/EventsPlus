@@ -15,6 +15,7 @@ import me.stroyer.eventsplus.Events.EventMethods.Metrics;
 import me.stroyer.eventsplus.Events.EventMethods.UpdateChecker;
 import me.stroyer.eventsplus.Listeners.*;
 import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.ArenaStorage.ArenaManagement;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.ConsoleVote;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -57,6 +58,7 @@ public final class Main extends JavaPlugin {
         });
 
 //        Bukkit.getServer().getPluginManager().getPlugin("EventsPlus").saveDefaultConfig();
+        getCommand("ep_addvote").setExecutor(new ConsoleVote(this));
         getCommand("EventsPlus").setExecutor(new EventsPlus(this));
         getCommand("Mailbox").setExecutor(new MailboxCommand(this));
         getCommand("EventsPlus").setTabCompleter(new TabCompleter());
@@ -79,9 +81,11 @@ public final class Main extends JavaPlugin {
             Path path2 = Paths.get("./plugins/EventsPlus/mailboxData.eventsplus");
             Files.createDirectories(path);
             File file3 = new File("./plugins/EventsPlus/wipeoutarenas.eventsplus");
+            File consoleVotes = new File("./plugins/eventsplus/consolevote.eventsplus");
             try {
                 f2.createNewFile();
                 file3.createNewFile();
+                consoleVotes.createNewFile();
             } catch (IOException e) {
                 Bukkit.getLogger().info("Creating EventsPlus data files...");
                 Bukkit.getLogger().info("Success!");
@@ -99,6 +103,8 @@ public final class Main extends JavaPlugin {
                     Podium.attemptLoadLocal();
                     SerializableMailbox.loadMailboxes();
                     ArenaManagement.loadArenasLocally();
+                    ConsoleVote.load();
+                    ConsoleVote.startTimer();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -124,6 +130,7 @@ public final class Main extends JavaPlugin {
                 //SerializableMailbox.saveMailboxes();
             //}
             ArenaManagement.saveArenasLocally();
+            ConsoleVote.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
