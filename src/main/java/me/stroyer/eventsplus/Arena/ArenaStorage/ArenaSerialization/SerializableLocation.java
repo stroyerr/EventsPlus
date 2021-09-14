@@ -44,4 +44,13 @@ public class SerializableLocation implements Serializable {
 
         return convertedList;
     }
+
+    private static void convertToCorners(List<Location> locs){
+
+    }
+
+    private static List<Location> getLocationsFromCorners(){
+
+        return null;
+    }
 }

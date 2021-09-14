@@ -11,9 +11,11 @@ import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlo
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlockObjects.Mailbox.SerializableMailbox;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.Podium;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
+import me.stroyer.eventsplus.Events.EventMethods.Metrics;
 import me.stroyer.eventsplus.Listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +31,9 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+
+        int pluginId = 12782; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
 
         Logger logger = this.getLogger();
 
@@ -65,14 +70,13 @@ public final class Main extends JavaPlugin {
 
         CallTimer.initiate();
 
-        File f = new File("./plugins/EventsPlus/arenas.eventsplus");
+
         File f2 = new File("./plugins/EventsPlus/mailboxData.eventsplus");
         try{
             Path path = Paths.get("./plugins/EventsPlus");
             Path path2 = Paths.get("./plugins/EventsPlus/mailboxData.eventsplus");
             Files.createDirectories(path);
             try {
-                f.createNewFile();
                 f2.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -81,15 +85,22 @@ public final class Main extends JavaPlugin {
             e.printStackTrace();
         }
 
-        try {
-            StorageManager.load();
-            Podium.attemptLoadLocal();
-            SerializableMailbox.loadMailboxes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        BukkitRunnable loadArenasPodiumsPostStart =  new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    StorageManager.load();
+                    Podium.attemptLoadLocal();
+                    SerializableMailbox.loadMailboxes();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        loadArenasPodiumsPostStart.runTaskLater(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L);
 
     }
 

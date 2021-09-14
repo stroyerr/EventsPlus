@@ -39,25 +39,17 @@ public class SerializableMailbox implements Serializable {
     public SerializableMailbox(Mailbox mailbox){
 
         List<Map<String, Object>> serializedObjects = new ArrayList<>();
+        byte[] serializedBytes;
+        List<byte[]> objectByteArrays = new ArrayList<>();
 
         this.playerUUID = mailbox.ownerUUID;
         for(int i = 0; i < mailbox.inventory.getSize(); i++) {
-            try {
-                checkSerializable(mailbox.inventory.getItem(i));
+            if(serializedObjects.get(i) == null){continue;}
                 serializedObjects.add(mailbox.inventory.getItem(i).serialize());
-            } catch (NotSerializableException e) {
-                Bukkit.getLogger().info("Failed to save an unserializable itemstack.");
-                continue;
-            } catch (NullPointerException e) {
-                Bukkit.getLogger().info("Failed to save (nullpointer exception). This shouldn't be an issue,");
-            } catch (IOException e){
-                continue;
-            } catch (Exception e){
-                continue;
-            }
+
             //if(mailbox.inventory.getItem(i) != null){
 //                try{
-//                    checkSerializable(mailbox.inventory.getItem(i));
+//                    checkSerializable(mailbox.inv//entory.getItem(i));
 //                    serializedObjects.add(mailbox.inventory.getItem(i).serialize());
 //                }catch (NotSerializableException e){
 //                    Bukkit.getLogger().info("Failed to save an unserializable itemstack.");

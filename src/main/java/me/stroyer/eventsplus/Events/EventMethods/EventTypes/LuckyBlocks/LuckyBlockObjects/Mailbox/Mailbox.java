@@ -63,7 +63,7 @@ public class Mailbox {
 
     public Boolean isEmpty(){
         for(int i = 0; i < this.inventory.getSize(); i++){
-            if(this.inventory.getItem(i) != null){
+            if(this.inventory.getItem(i) != null || this.inventory.getItem(i).equals(getDeleteItem())){
                 return false;
             }
         }
@@ -72,7 +72,7 @@ public class Mailbox {
 
     public void clear(){
         this.inventory.clear();
-        this.inventory.setItem(54, getDeleteItem());
+        this.inventory.setItem(53, getDeleteItem());
     }
 
     public static ItemStack getDeleteItem(){
