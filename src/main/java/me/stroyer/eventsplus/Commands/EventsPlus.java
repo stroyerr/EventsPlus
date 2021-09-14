@@ -8,9 +8,14 @@ import me.stroyer.eventsplus.Events.GUIs.DeleteUI;
 import me.stroyer.eventsplus.Events.GUIs.StartGUI;
 import me.stroyer.eventsplus.Main;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import me.stroyer.eventsplus.UI.Methods.NewItem;
+import me.stroyer.eventsplus.VotersEvent.EventHandling.PreVoteEvent;
+import me.stroyer.eventsplus.VotersEvent.Util.PlayersVoted;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.ArenaStorage.ArenaManagement;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +39,8 @@ public class EventsPlus implements CommandExecutor {
             "license",
             "tp",
             "podium",
-            "version"
+            "version",
+            "wipeout"
     };
 
     public static String[] arenaCommands = {
@@ -45,6 +51,10 @@ public class EventsPlus implements CommandExecutor {
     public static String[] podiumCommands = {
             "create",
             "save"
+    };
+
+    public static String[] wipeoutCommands = {
+            "create"
     };
 
     private Main main;
@@ -60,6 +70,16 @@ public class EventsPlus implements CommandExecutor {
             return true;
         }else {
 
+            if(args[0].equalsIgnoreCase("check")){
+                Boolean isRegistered = PlayersVoted.playersVotedInLastDay().contains(p);
+                if(isRegistered){
+                    Send.player(p, ChatColor.GREEN + "You are registered for the event! Thanks for voting in the last 24 hours!");
+                }else{
+                    Send.player(p, ChatColor.RED + "You are not registered for the event as you have not voted in the past 24 hours. Vote now and you will automatically be registered!");
+                }
+                return true;
+            }
+
             if (!p.hasPermission("eventsplus.admin")) {
                 Send.player(p, ChatColor.RED + "Insufficient permissions.");
                 return true;
@@ -67,6 +87,20 @@ public class EventsPlus implements CommandExecutor {
         }
 
         if(args.length > 0){
+
+            if(args[0].equalsIgnoreCase("wipeout")){
+                if(args.length == 1){
+                    Send.player(p, ChatColor.LIGHT_PURPLE + "Left click to set pos1. Right click to set pos2. Use /ep wipeout create <name> to create your selection.");
+                    p.getInventory().setItem(p.getInventory().getHeldItemSlot(), NewItem.createGuiItem(Material.IRON_AXE, ChatColor.RED + "Wipeout Arena Selection"));
+                    return true;
+                }
+                if(args.length == 3){
+                    ArenaManagement.attemptCreate(args[2], p);
+                    return true;
+                }
+                Send.player(p, "Incorrect syntax. Use /ep wipeout create <name>");
+                return true;
+            }
 
             if(args[0].equalsIgnoreCase("version")){
                 Send.player(p, "Currently running version " + Bukkit.getPluginManager().getPlugin("EventsPlus").getDescription().getVersion() + ".");
@@ -150,15 +184,26 @@ public class EventsPlus implements CommandExecutor {
 
             if(args[0].equalsIgnoreCase("help")){
                 List<String> msg = new ArrayList<String>();
+                msg.add("/mailbox" + ChatColor.GREEN + " Opens your mailbox.");
                 msg.add("/ep arena create" + ChatColor.GREEN + " Gives the arena creation selection tool");
                 msg.add("/ep arena save <arena name>" + ChatColor.GREEN + " Creates an arena from your selection and names the arena <arena name>");
+                msg.add("/ep podium create" + ChatColor.GREEN + " Gives the podium selection wand.");
+                msg.add("/ep podium save" + ChatColor.GREEN + " Sets the active podium to the podium selected with the selection wand.");
                 msg.add("/ep listarenas" + ChatColor.GREEN + " Lists all currently saved arenas.");
                 msg.add("/ep start" + ChatColor.GREEN + " Start an event as host. Must have eventsplus.host permission node to host an event.");
                 msg.add("/ep delete" + ChatColor.GREEN + " Delete an event.");
                 msg.add("/ep license " + ChatColor.GREEN + "Get the license for EventsPlus");
                 msg.add("/ep version " + ChatColor.GREEN + "Current version being run");
+                msg.add("/ep wipeout" + ChatColor.GREEN + " Get wipeout arena selection tool.");
+                msg.add("/ep wipeout create <name>" + ChatColor.GREEN + " Create a wipeout arena from your selection.");
                 Send.playerMultipleLines(p, msg, "Admin Commands");
                 return true;
+            }
+
+            if(args[0].equalsIgnoreCase("startvote")){
+                if(p.hasPermission("eventsplus.bypass")){
+                    PreVoteEvent.initialise();
+                }
             }
 
             if(args[0].equalsIgnoreCase("podium")){

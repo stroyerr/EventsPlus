@@ -63,9 +63,10 @@ public class Mailbox {
 
     public Boolean isEmpty(){
         for(int i = 0; i < this.inventory.getSize(); i++){
-            if(this.inventory.getItem(i) != null || this.inventory.getItem(i).equals(getDeleteItem())){
-                return false;
-            }
+                if(this.inventory.getItem(i) != null && !this.inventory.getItem(i).equals(getDeleteItem())){
+                    return false;
+                }
+
         }
         return true;
     }

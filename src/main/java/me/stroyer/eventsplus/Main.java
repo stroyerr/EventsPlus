@@ -12,7 +12,9 @@ import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.LuckyBlo
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.Podium;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.Events.EventMethods.Metrics;
+import me.stroyer.eventsplus.Events.EventMethods.UpdateChecker;
 import me.stroyer.eventsplus.Listeners.*;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.ArenaStorage.ArenaManagement;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -76,13 +78,17 @@ public final class Main extends JavaPlugin {
             Path path = Paths.get("./plugins/EventsPlus");
             Path path2 = Paths.get("./plugins/EventsPlus/mailboxData.eventsplus");
             Files.createDirectories(path);
+            File file3 = new File("./plugins/EventsPlus/wipeoutarenas.eventsplus");
             try {
                 f2.createNewFile();
+                file3.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().info("Creating EventsPlus data files...");
+                Bukkit.getLogger().info("Success!");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().info("Creating EventsPlus data files...");
+            Bukkit.getLogger().info("Success!");
         }
 
         BukkitRunnable loadArenasPodiumsPostStart =  new BukkitRunnable() {
@@ -92,6 +98,7 @@ public final class Main extends JavaPlugin {
                     StorageManager.load();
                     Podium.attemptLoadLocal();
                     SerializableMailbox.loadMailboxes();
+                    ArenaManagement.loadArenasLocally();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -113,7 +120,10 @@ public final class Main extends JavaPlugin {
         try {
             StorageManager.save();
             Podium.attemptSaveLocal();
-            SerializableMailbox.saveMailboxes();
+            //if(SerializableMailbox.getSerializedMailboxes().size() != 0){
+                //SerializableMailbox.saveMailboxes();
+            //}
+            ArenaManagement.saveArenasLocally();
         } catch (IOException e) {
             e.printStackTrace();
         }

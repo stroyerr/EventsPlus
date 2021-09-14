@@ -24,7 +24,7 @@ public class CloseEvent {
     public static void close(Event event){
 //        PlayerLostItem.notifyStaff();
         if(event != null){
-            
+
         }else{return;}
         if(event.type.equalsIgnoreCase("lucky_blocks")){
             LuckyBlockLocations.clearLocations();

@@ -5,6 +5,7 @@ import me.stroyer.eventsplus.Arena.Arenas;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Podium.Podium;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.WipeoutArena;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -17,6 +18,18 @@ import java.util.List;
 public class BlockActionInArena implements Listener {
     @EventHandler
     public static void blockBreakEvent(BlockBreakEvent e){
+
+        for(WipeoutArena arena : WipeoutArena.wipeOutArenas){
+            if(arena.arenaContainsLocation(e.getBlock().getLocation())){
+                if(e.getPlayer().hasPermission("eventsplus.bypass")){
+                    return;
+                }else{
+                    e.setCancelled(true);
+                    Send.player(e.getPlayer(), ChatColor.RED + "You cannot modify a wipeout arena.");
+                    return;
+                }
+            }
+        }
 
         if(Podium.podium.locations.contains(e.getBlock().getLocation()) && !e.getPlayer().hasPermission("eventsplus.bypass")){
             e.setCancelled(true);
@@ -48,6 +61,19 @@ public class BlockActionInArena implements Listener {
 
     @EventHandler
     public static void blockPlaceEvent(BlockPlaceEvent e){
+
+        for(WipeoutArena arena : WipeoutArena.wipeOutArenas){
+            if(arena.arenaContainsLocation(e.getBlock().getLocation())){
+                if(e.getPlayer().hasPermission("eventsplus.bypass")){
+                    return;
+                }else{
+                    e.setCancelled(true);
+                    Send.player(e.getPlayer(), ChatColor.RED + "You cannot modify a wipeout arena.");
+                    return;
+                }
+            }
+        }
+
         if(Podium.podium.locations.contains(e.getBlock().getLocation())){
             e.setCancelled(true);
             Send.player(e.getPlayer(), ChatColor.RED + "You cannot modify a podium.");
