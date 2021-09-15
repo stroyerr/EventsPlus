@@ -22,30 +22,30 @@
 
 package me.stroyer.eventsplus.Listeners;
 
-import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
 import me.stroyer.eventsplus.VotersEvent.EventHandling.WipeoutEvent;
-import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.TurretHandler;
-import org.bukkit.Particle;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.Checkpoint;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.PlayerCheckpoint;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 
-public class ArrowEvent implements Listener {
+public class PlayerMoveToBlock implements Listener {
     @EventHandler
-    public static void arrowCollision(ProjectileCollideEvent e){
-        if(WipeoutEvent.activeEvent == null){
-            return;
-        }
-        if(e.getEntity() instanceof Arrow){
-            e.setCancelled(true);
-            e.getEntity().remove();
-        }
-        if(WipeoutEvent.activeEvent.getMembers().contains(e.getCollidedWith())){
-            e.setCancelled(true);
-            TurretHandler.playerCollision((Player) e.getCollidedWith());
-            e.getEntity().remove();
-            e.getEntity().getLocation().getWorld().spawnParticle(Particle.SMALL_FLAME, e.getEntity().getLocation(), 500);
+    public static void playerMovementEvent(PlayerMoveEvent e){
+        if(WipeoutEvent.activeEvent == null){return;}
+        PlayerCheckpoint pc = PlayerCheckpoint.getPlayerCheckpointByPlayer(e.getPlayer());
+
+        double x = Math.round(e.getPlayer().getLocation().getX());
+        double y = Math.round(e.getPlayer().getLocation().getY());
+        double z = Math.round(e.getPlayer().getLocation().getZ());
+
+        for(Checkpoint checkpoint : Checkpoint.getCheckpoints()){
+            if(new Location(e.getPlayer().getLocation().getWorld(), x, y, z).equals(checkpoint.getLocation())){
+                PlayerCheckpoint.getPlayerCheckpointByPlayer(e.getPlayer()).checkpointCollision(checkpoint);
+                return;
+            }
         }
     }
 }

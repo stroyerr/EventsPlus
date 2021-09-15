@@ -72,7 +72,7 @@ public class Turret {
         @Override
         public void run() {
             for(Turret t : turretPreChange){
-                t.getLocation().getWorld().spawnParticle(Particle.PORTAL, t.getLocation(), 50);
+                t.getLocation().getWorld().spawnParticle(Particle.PORTAL, t.getLocation().getX() + 0.5, t.getLocation().getY() + 0.5, t.location.getZ() + 0.5, 50);
             }
         }
     };

@@ -62,6 +62,8 @@ public final class Main extends JavaPlugin {
         getCommand("EventsPlus").setExecutor(new EventsPlus(this));
         getCommand("Mailbox").setExecutor(new MailboxCommand(this));
         getCommand("EventsPlus").setTabCompleter(new TabCompleter());
+        getServer().getPluginManager().registerEvents(new ArrowEvent(), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveToBlock(), this);
         getServer().getPluginManager().registerEvents(new PlayerConnect(), this);
         getServer().getPluginManager().registerEvents(new SelectionWand(), this);
         getServer().getPluginManager().registerEvents(new BlockActionInArena(), this);

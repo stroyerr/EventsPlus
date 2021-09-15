@@ -22,6 +22,7 @@
 
 package me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena;
 
+import me.stroyer.eventsplus.VotersEvent.EventHandling.WipeoutEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
@@ -65,9 +66,13 @@ public class TurretHandler {
                 Random random = new Random();
                 int r = random.nextInt(4);
                 if(r == 3){
-                    Arrow arrow = turret.getLocation().getWorld().spawnArrow(turret.getLocation(), turret.getFacingVector(),10f, 1f);
+                    Arrow arrow = turret.getLocation().getWorld().spawnArrow(turret.getLocation(), turret.getFacingVector(),15f, 0.1f);
                 }
             }
         }
     };
+
+    public static void playerCollision(Player collidedWith) {
+        WipeoutEvent.activeEvent.respawnPlayer(collidedWith);
+    }
 }

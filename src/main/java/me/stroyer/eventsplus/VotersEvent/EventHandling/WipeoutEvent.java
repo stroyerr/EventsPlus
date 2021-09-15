@@ -26,14 +26,11 @@ package me.stroyer.eventsplus.VotersEvent.EventHandling;
 import me.stroyer.eventsplus.Methods.StaffOnline;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import me.stroyer.eventsplus.VotersEvent.Util.PlayersVoted;
-import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.Turret;
-import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.TurretHandler;
-import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.WipeoutArena;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.*;
 import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.PlayerPrelocation;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -59,6 +56,7 @@ public class WipeoutEvent {
     private List<Block> turretBlocks;
     private WipeoutArena arena;
     private List<PlayerPrelocation> preLocations = new ArrayList<>();
+    private Location spawn;
 
     public WipeoutEvent(Player host, WipeoutArena arena){
         this.members = PlayersVoted.playersVotedInLastDay();
@@ -139,6 +137,8 @@ public class WipeoutEvent {
     }
 
     public void endEvent(){
+        PlayerCheckpoint.clearCheckpoints();
+        Checkpoint.clearCheckpoints();
         activeEvent.tpToPrelocations();
         activeEvent.arena.buildPlaceholders();
         Turret.stopParticleEffects();
@@ -146,6 +146,10 @@ public class WipeoutEvent {
         TurretHandler.endTurretTimer();
 
         nullActiveWipeoutEvent();
+    }
+
+    public List<Player> getMembers(){
+        return this.members;
     }
 
     public void tpToPrelocations(){
@@ -158,6 +162,7 @@ public class WipeoutEvent {
         for(Player player: this.members){
             Bukkit.getLogger().info("found " + arena.blocksOfTypeInArena(Material.SCAFFOLDING).size() + " scaffolds");
             player.teleport( new Location(arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getWorld(), arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getX(), arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getY() + 2, arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getZ()));
+            this.spawn = arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation();
         }
     }
 
@@ -188,6 +193,23 @@ public class WipeoutEvent {
     }
 
     public void startEventActive(){
+        Checkpoint.generateCheckpoints();
+        PlayerCheckpoint.generateCheckpoints(this.members);
         TurretHandler.initiate();
+    }
+
+    public void respawnPlayer(Player player){
+        if(PlayerCheckpoint.getPlayerCheckpointByPlayer(player) == null){
+            player.teleport(this.spawn);
+        }else
+        if(PlayerCheckpoint.getPlayerCheckpointByPlayer(player).getLastCheckpointLocation() == null){
+            player.teleport(this.spawn);
+        }else
+        if(PlayerCheckpoint.getPlayerCheckpointByPlayer(player) != null){
+            PlayerCheckpoint.getPlayerCheckpointByPlayer(player).respawnAtCheckpoint();
+        }
+
+        player.playSound(player.getLocation(), Sound.ENTITY_IRON_GOLEM_DAMAGE, 10, 1);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "You got hit! Respawning at your last checkpoint..."));
     }
 }
