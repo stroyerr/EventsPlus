@@ -22,6 +22,7 @@
 
 package me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena;
 
+import me.stroyer.eventsplus.VotersEvent.EventHandling.WipeoutEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -99,6 +100,19 @@ public class WipeoutArena {
 
     public World getWorld(){
         return this.world;
+    }
+
+    public void deletePlaceholders(){
+        this.turretBlocks = WipeoutEvent.activeEvent.getTurretBlocks();
+        for(Block block : this.turretBlocks){
+            block.setType(Material.AIR);
+        }
+    }
+
+    public void buildPlaceholders() {
+        for (Block block : this.turretBlocks) {
+            block.setType(Material.DISPENSER);
+        }
     }
 
 }

@@ -24,6 +24,7 @@ package me.stroyer.eventsplus.VotersEvent.Util.Whipeout;
 
 import me.stroyer.eventsplus.Main;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import me.stroyer.eventsplus.VotersEvent.EventHandling.WipeoutEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -79,7 +80,7 @@ public class ConsoleVote implements CommandExecutor {
     public static void addVote(){
         votesToday ++;
         if(votesToday >= 10){
-            //call method
+
             votesToday = 0;
         }
     }

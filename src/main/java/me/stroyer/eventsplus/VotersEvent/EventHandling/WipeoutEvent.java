@@ -26,39 +26,65 @@ package me.stroyer.eventsplus.VotersEvent.EventHandling;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import me.stroyer.eventsplus.VotersEvent.Util.PlayersVoted;
 import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.WipeoutArena;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.PlayerPrelocation;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class VotingEvent {
+public class WipeoutEvent {
 
     /*
     This class should be the central control unit for all Voting Event actions. This class should contain
     all methods and orders of the event. No other thread or class should become the primary 'storyboard' of
-    the event. Other classes may be referenced to get or set properties. The object VotingEvent has central and
+    the event. Other classes may be referenced to get or set properties. The object WipeoutEvent has central and
     only important properties. All properties are to be attained via the object call methods, not directly (hence the
     private variables).
      */
 
-    public static VotingEvent activeEvent = null;
+    public static WipeoutEvent activeEvent = null;
 
-    private List<Player> members;
+    private List<Player> members = new ArrayList<>();
     private Boolean eventActive;
     private Player host;
     private List<Block> turretBlocks;
+    private WipeoutArena arena;
+    private List<PlayerPrelocation> preLocations = new ArrayList<>();
 
-    public VotingEvent(Player host){
+    public WipeoutEvent(Player host, WipeoutArena arena){
         this.members = PlayersVoted.playersVotedInLastDay();
         this.eventActive = true;
         this.host = host;
+        this.arena = arena;
+        this.turretBlocks = this.arena.blocksOfTypeInArena(Material.DISPENSER);
     }
 
-    public VotingEvent(){
+    public List<Block> getTurretBlocks(){
+        return this.turretBlocks;
+    }
+
+    public Boolean eventActive(){
+        return this.eventActive;
+    }
+
+    public Player getHost(){
+        return this.host;
+    }
+
+    public WipeoutArena getArena(){
+        return this.arena;
+    }
+
+    public WipeoutEvent(WipeoutArena arena){
         this.members = PlayersVoted.playersVotedInLastDay();
         this.eventActive = true;
+        this.turretBlocks = this.arena.blocksOfTypeInArena(Material.DISPENSER);
+        this.arena = arena;
     }
 
     public static void initialise(Player host, WipeoutArena arena){
@@ -68,8 +94,40 @@ public class VotingEvent {
         }
 
         Send.player(host, ChatColor.GREEN + "Wipeout Arena configured correctly. Initiating now.");
-        activeEvent = new VotingEvent(host);
+        activeEvent = new WipeoutEvent(host, arena);
+        activeEvent.savePlayerPreLocations();
+        activeEvent.arena.deletePlaceholders();
 
+    }
+
+    public static void initialise(){
+        Random random = new Random();
+        int index = random.nextInt(WipeoutArena.wipeOutArenas.size());
+        WipeoutArena randomArena = WipeoutArena.wipeOutArenas.get(index - 1);
+        if(!runInitialiseChecks(randomArena)){
+            Bukkit.getLogger().info("One or more of your Wipeout Arenas are not configured properly.");
+            return;
+        }
+        activeEvent = new WipeoutEvent(randomArena);
+        activeEvent.savePlayerPreLocations();
+        activeEvent.arena.deletePlaceholders();
+    }
+
+    public void endEvent(){
+        activeEvent.tpToPrelocations();
+        activeEvent.arena.buildPlaceholders();
+
+        nullActiveWipeoutEvent();
+    }
+
+    public void tpToPrelocations(){
+        for(PlayerPrelocation playerPrelocation : this.getPreLocations()){
+            playerPrelocation.player.teleport(playerPrelocation.location);
+        }
+    }
+
+    public static void nullActiveWipeoutEvent(){
+        WipeoutEvent.activeEvent = null;
     }
 
     public static Boolean runInitialiseChecks(WipeoutArena arena){
@@ -81,5 +139,15 @@ public class VotingEvent {
         }else{
             return false;
         }
+    }
+
+    public void savePlayerPreLocations(){
+        for(Player player : members){
+            preLocations.add(new PlayerPrelocation(player, player.getLocation()));
+        }
+    }
+
+    public List<PlayerPrelocation> getPreLocations(){
+        return this.preLocations;
     }
 }

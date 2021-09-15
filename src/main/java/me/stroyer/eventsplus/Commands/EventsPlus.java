@@ -10,6 +10,7 @@ import me.stroyer.eventsplus.Main;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import me.stroyer.eventsplus.UI.Methods.NewItem;
 import me.stroyer.eventsplus.VotersEvent.EventHandling.PreVoteEvent;
+import me.stroyer.eventsplus.VotersEvent.EventHandling.WipeoutEvent;
 import me.stroyer.eventsplus.VotersEvent.Util.PlayersVoted;
 import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.ArenaStorage.ArenaManagement;
 import org.bukkit.Bukkit;
@@ -236,6 +237,10 @@ public class EventsPlus implements CommandExecutor {
             }
 
             if(args[0].equalsIgnoreCase("stop")){
+                if(WipeoutEvent.activeEvent != null){
+                    Send.player(p, ChatColor.RED + "Forcing event to stop.");
+                    WipeoutEvent.activeEvent.endEvent();
+                }
                 return true;
             }
 
