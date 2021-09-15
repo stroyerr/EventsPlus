@@ -22,22 +22,72 @@
 
 package me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.type.Dispenser;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Turret {
+
+    public static List<Turret> turretPreChange = new ArrayList<>();
 
     private Location location;
     private Directional direction;
     private Vector facingVector;
+    private Dispenser dispenser;
+    private Block block;
+    private BlockData dispenserData;
+    private BlockFace facing;
 
     public Turret(Block turretBlock){
         this.location = turretBlock.getLocation();
+        this.block = this.location.getBlock();
+        this.dispenserData = this.block.getBlockData();
         this.direction = (Directional) turretBlock.getBlockData();
         this.facingVector = this.direction.getFacing().getDirection();
+        if(this.block instanceof Dispenser){
+            Dispenser d = (Dispenser) this.block.getState();
+            this.dispenser = d;
+            this.facing = this.dispenser.getFacing();
+        }else{
+            Bukkit.getLogger().info("Failed to cast.");
+        }
+
+
+        turretPreChange.add(this);
+
     }
+
+    private static BukkitRunnable particleTimer = new BukkitRunnable() {
+        @Override
+        public void run() {
+            for(Turret t : turretPreChange){
+                t.getLocation().getWorld().spawnParticle(Particle.PORTAL, t.getLocation(), 50);
+            }
+        }
+    };
+
+    public static void startParticleEffects(){
+        particleTimer.runTaskTimer(Bukkit.getPluginManager().getPlugin("EventsPlus"), 0L, 10L);
+    }
+
+    public static void stopParticleEffects(){
+        particleTimer.cancel();
+    }
+
+    public Block getBlock(){return this.block;}
+
+    public BlockFace getFacing(){return this.facing;}
 
     public Vector getFacingVector(){
         return this.facingVector;
@@ -47,7 +97,13 @@ public class Turret {
         return this.location;
     }
 
-    public Directional direction(){
+    public Directional getDirection(){
         return this.direction;
+    }
+
+    public BlockData getDispenserData(){return this.dispenserData;}
+
+    public static void clearTurretBlockSaveData(){
+        turretPreChange.clear();
     }
 }

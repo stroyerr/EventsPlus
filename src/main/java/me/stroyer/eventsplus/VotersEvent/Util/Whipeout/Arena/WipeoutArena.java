@@ -73,6 +73,7 @@ public class WipeoutArena {
     public double maxZ;
     private World world;
     private List<Block> turretBlocks = new ArrayList<>();
+    private Block spawnBlock;
 
     public WipeoutArena(String name, Location pos1, Location pos2, World world){
         this.maxX = Math.max(pos1.getX(), pos2.getX());
@@ -107,12 +108,24 @@ public class WipeoutArena {
         for(Block block : this.turretBlocks){
             block.setType(Material.AIR);
         }
+        for(Block block : this.blocksOfTypeInArena(Material.SCAFFOLDING)){
+            block.setType(Material.AIR);
+            this.spawnBlock = block;
+        }
     }
 
     public void buildPlaceholders() {
         for (Block block : this.turretBlocks) {
             block.setType(Material.DISPENSER);
+            for(Turret turretData : Turret.turretPreChange){
+                if(turretData.getLocation().equals(block.getLocation())){
+                    block.setBlockData(turretData.getDispenserData());
+                }
+            }
         }
+
+        this.spawnBlock.setType(Material.SCAFFOLDING);
+
     }
 
 }

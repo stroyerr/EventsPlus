@@ -65,12 +65,20 @@ public class ConsoleVote implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(sender instanceof Player){
+
             Send.player((Player) sender, "This command can only be called via console!");
 
             return true;
         }
 
-        votesToday++;
+        if(args.length == 1){
+            if(args[0].equalsIgnoreCase("force")){
+                WipeoutEvent.initialise();
+                return true;
+            }
+        }
+
+        addVote();
         Send.allPlayer("A vote was recieved! We're getting closer to starting this awesome vote event! Only " + ChatColor.YELLOW + (10-votesToday) + ChatColor.GOLD + " more votes required in the next " + ChatColor.YELLOW + ((1440 - minutesElapsed)/60) + " hours!");
         return true;
     }
@@ -80,7 +88,7 @@ public class ConsoleVote implements CommandExecutor {
     public static void addVote(){
         votesToday ++;
         if(votesToday >= 10){
-
+            WipeoutEvent.initialise();
             votesToday = 0;
         }
     }

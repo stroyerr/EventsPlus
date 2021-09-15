@@ -5,6 +5,7 @@ import me.stroyer.eventsplus.Events.EventMethods.CloseEvent;
 import me.stroyer.eventsplus.Events.EventMethods.EventObjects.Event;
 import me.stroyer.eventsplus.Events.EventMethods.EventTypes.LuckyBlocks.Processes.LuckyBlockEvent;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
+import me.stroyer.eventsplus.VotersEvent.EventHandling.WipeoutEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,11 +16,17 @@ public class ChatListener implements Listener {
     @EventHandler
     public static void commandExecuted(PlayerCommandPreprocessEvent e){
         Event event = Event.activeEvent;
-        if(Event.activeEvent == null){
+        if(Event.activeEvent == null && WipeoutEvent.activeEvent == null){
             return;
         }
         if(e.getPlayer().hasPermission("eventsplus.bypass") && e.getMessage().equalsIgnoreCase("/ep stop")){
             e.getPlayer().sendMessage(ChatColor.RED + "This command is not supported and is not to be used unless something went wrong. Instead, use the \"Close Event\" button in your staff controller.");
+            if(WipeoutEvent.activeEvent != null){
+                Send.player(e.getPlayer(), ChatColor.RED + "Forcing event to stop.");
+                WipeoutEvent.activeEvent.endEvent();
+                return;
+            }
+
             LuckyBlockEvent.endRound();
             CloseEvent.close(Event.activeEvent);
             return;

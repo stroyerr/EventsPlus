@@ -23,12 +23,16 @@
 package me.stroyer.eventsplus.VotersEvent.EventHandling;
 
 
+import me.stroyer.eventsplus.Methods.StaffOnline;
 import me.stroyer.eventsplus.PlayerInteraction.Send;
 import me.stroyer.eventsplus.VotersEvent.Util.PlayersVoted;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.Turret;
+import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.TurretHandler;
 import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.Arena.WipeoutArena;
 import me.stroyer.eventsplus.VotersEvent.Util.Whipeout.PlayerPrelocation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -83,11 +87,14 @@ public class WipeoutEvent {
     public WipeoutEvent(WipeoutArena arena){
         this.members = PlayersVoted.playersVotedInLastDay();
         this.eventActive = true;
-        this.turretBlocks = this.arena.blocksOfTypeInArena(Material.DISPENSER);
         this.arena = arena;
+        this.turretBlocks = this.arena.blocksOfTypeInArena(Material.DISPENSER);
     }
 
     public static void initialise(Player host, WipeoutArena arena){
+        if(activeEvent != null){
+            return;
+        }
         if(!runInitialiseChecks(arena)){
             Send.player(host, ChatColor.RED + "Something went wrong, ensure you have properly configured and setup the event.");
             return;
@@ -95,27 +102,48 @@ public class WipeoutEvent {
 
         Send.player(host, ChatColor.GREEN + "Wipeout Arena configured correctly. Initiating now.");
         activeEvent = new WipeoutEvent(host, arena);
+        for(Block block : activeEvent.getTurretBlocks()){
+            Turret.turretPreChange.add(new Turret(block));
+        }
+        Turret.startParticleEffects();
         activeEvent.savePlayerPreLocations();
+        activeEvent.tpAllToEvent();
         activeEvent.arena.deletePlaceholders();
+        activeEvent.startEventActive();
 
     }
 
     public static void initialise(){
+        if(activeEvent != null){
+            return;
+        }
+        for(Player player : StaffOnline.get()){
+            player.sendMessage(ChatColor.GREEN + "Console has recieved 10 votes in 24 hours. Attempting to begin event.");
+        }
         Random random = new Random();
-        int index = random.nextInt(WipeoutArena.wipeOutArenas.size());
-        WipeoutArena randomArena = WipeoutArena.wipeOutArenas.get(index - 1);
+        int index = random.nextInt(WipeoutArena.wipeOutArenas.size()-1);
+        WipeoutArena randomArena = WipeoutArena.wipeOutArenas.get(index);
         if(!runInitialiseChecks(randomArena)){
             Bukkit.getLogger().info("One or more of your Wipeout Arenas are not configured properly.");
             return;
         }
         activeEvent = new WipeoutEvent(randomArena);
+        for(Block block : activeEvent.getTurretBlocks()){
+            Turret.turretPreChange.add(new Turret(block));
+        }
+        Turret.startParticleEffects();
         activeEvent.savePlayerPreLocations();
+        activeEvent.tpAllToEvent();
         activeEvent.arena.deletePlaceholders();
+        activeEvent.startEventActive();
     }
 
     public void endEvent(){
         activeEvent.tpToPrelocations();
         activeEvent.arena.buildPlaceholders();
+        Turret.stopParticleEffects();
+        Turret.clearTurretBlockSaveData();
+        TurretHandler.endTurretTimer();
 
         nullActiveWipeoutEvent();
     }
@@ -126,11 +154,19 @@ public class WipeoutEvent {
         }
     }
 
+    public void tpAllToEvent(){
+        for(Player player: this.members){
+            Bukkit.getLogger().info("found " + arena.blocksOfTypeInArena(Material.SCAFFOLDING).size() + " scaffolds");
+            player.teleport( new Location(arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getWorld(), arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getX(), arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getY() + 2, arena.blocksOfTypeInArena(Material.SCAFFOLDING).get(0).getLocation().getZ()));
+        }
+    }
+
     public static void nullActiveWipeoutEvent(){
         WipeoutEvent.activeEvent = null;
     }
 
     public static Boolean runInitialiseChecks(WipeoutArena arena){
+        Bukkit.getLogger().info("Disp: " + arena.blocksOfTypeInArena(Material.DISPENSER).size() + ", Scaff: " + arena.blocksOfTypeInArena(Material.SCAFFOLDING).size());
         if(arena.blocksOfTypeInArena(Material.DISPENSER).size() > 0){
             if(arena.blocksOfTypeInArena(Material.SCAFFOLDING).size() == 1){
                 return true;
@@ -149,5 +185,9 @@ public class WipeoutEvent {
 
     public List<PlayerPrelocation> getPreLocations(){
         return this.preLocations;
+    }
+
+    public void startEventActive(){
+        TurretHandler.initiate();
     }
 }

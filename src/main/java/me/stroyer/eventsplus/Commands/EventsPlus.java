@@ -237,10 +237,6 @@ public class EventsPlus implements CommandExecutor {
             }
 
             if(args[0].equalsIgnoreCase("stop")){
-                if(WipeoutEvent.activeEvent != null){
-                    Send.player(p, ChatColor.RED + "Forcing event to stop.");
-                    WipeoutEvent.activeEvent.endEvent();
-                }
                 return true;
             }
 
